@@ -18,9 +18,19 @@ class Web_Application extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/userguide3/general/urls.html
 	 */
+
+	function __construct(Type $var = null)
+	{
+		parent::__construct();
+		if (!isset($this->session->login) || $this->session->level == 4) {
+			$this->session->sess_destroy();
+			redirect(base_url("login"));
+		}
+	}
+	
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		$this->load->view('dashboard');
 	}
 	public function dashboard()
 	{
@@ -36,14 +46,20 @@ class Web_Application extends CI_Controller {
 	}
 	public function transaksi()
 	{
+		if ($this->session->level>2) {
+			redirect(base_url());
+		}
 		$this->load->view('transaksi');
 	}
 	public function pengguna()
 	{
+		if ($this->session->level>1) {
+			redirect(base_url());
+		}
 		$this->load->view('pengguna');
 	}
-	public function login()
-	{
-		$this->load->view('login');
-	}
+    public function logout(){
+        $this->session->sess_destroy();
+		redirect(base_url());
+    }
 }

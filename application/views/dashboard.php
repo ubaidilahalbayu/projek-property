@@ -10,10 +10,10 @@
     <link rel="stylesheet" href="<?= base_url(); ?>assets/css/style.css">
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+		
   </head>
   <body>
-		
 		<div class="wrapper d-flex align-items-stretch">
 			<nav id="sidebar">
 				<div class="custom-menu">
@@ -35,14 +35,45 @@
               <a href="<?= base_url(); ?>web_application/property"><span class="fa fa-briefcase mr-3"></span> Property</a>
 	          </li>
 	          <li>
-              <a href="<?= base_url(); ?>web_application/transaksi"><span class="fa fa-paper-plane mr-3"></span> Transaksi</a>
+				<?php
+				$transaksi = "";
+				$pengguna = "";
+				if ($this->session->level<3 && $this->session->level>0) {
+					$transaksi = base_url("web_application/transaksi");
+				}
+				if ($this->session->level==1) {
+					$transaksi = base_url("web_application/transaksi");
+					$pengguna = base_url("web_application/pengguna");
+				}
+				?>
+              <a id="htrans" href="<?= $transaksi; ?>"><span class="fa fa-paper-plane mr-3"></span> Transaksi</a>
 	          </li>
 	          <li>
-              <a href="<?= base_url(); ?>web_application/pengguna"><span class="fa fa-user-o mr-3"></span> Pengguna</a>
+              <a id="hpeng" href="<?= $pengguna; ?>"><span class="fa fa-user-o mr-3"></span> Pengguna</a>
 	          </li>
 	          <li>
               <a href="<?= base_url(); ?>web_application/logout"><span class="fa fa-sign-out mr-3"></span> Logout</a>
 	          </li>
+			  <?php
+				if ($this->session->level>1) {
+				?>
+				<script type="text/javascript">
+					$("#hpeng").click(function(){
+						alert("anda bukan owner");
+					});
+				</script>
+				<?php
+				if ($this->session->level>2) {
+				?>
+				<script type="text/javascript">
+					$("#htrans").click(function(){
+						alert("anda bukan superadmin/owner");
+					});
+				</script>
+				<?php
+				}
+				}
+				?>
 	          <!-- <li>
               <a href="#"><span class="fa fa-sticky-note mr-3"></span> Contacts</a>
 	          </li> -->
@@ -50,7 +81,7 @@
 
 	        <div class="footer">
 	        	<p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This application is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://kodekulaku.com" target="_blank">Colorlib.com</a>
+						  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This application is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://kodekulaku.com" target="_blank">kodekulaku.com</a>
 						  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
 	        </div>
 

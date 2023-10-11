@@ -37,15 +37,46 @@
 	          <li>
               <a href="<?= base_url(); ?>web_application/property"><span class="fa fa-briefcase mr-3"></span> Property</a>
 	          </li>
-	          <li class="active">
-              <a href="<?= base_url(); ?>web_application/transaksi"><span class="fa fa-paper-plane mr-3"></span> Transaksi</a>
+	          <li>
+				<?php
+				$transaksi = "";
+				$pengguna = "";
+				if ($this->session->level<3 && $this->session->level>0) {
+					$transaksi = base_url("web_application/transaksi");
+				}
+				if ($this->session->level==1) {
+					$transaksi = base_url("web_application/transaksi");
+					$pengguna = base_url("web_application/pengguna");
+				}
+				?>
+              <a id="htrans" href="<?= $transaksi; ?>"><span class="fa fa-paper-plane mr-3"></span> Transaksi</a>
 	          </li>
 	          <li>
-              <a href="<?= base_url(); ?>web_application/pengguna"><span class="fa fa-user-o mr-3"></span> Pengguna</a>
+              <a id="hpeng" href="<?= $pengguna; ?>"><span class="fa fa-user-o mr-3"></span> Pengguna</a>
 	          </li>
 	          <li>
               <a href="<?= base_url(); ?>web_application/logout"><span class="fa fa-sign-out mr-3"></span> Logout</a>
 	          </li>
+			  <?php
+				if ($this->session->level>1) {
+				?>
+				<script type="text/javascript">
+					$("#hpeng").click(function(){
+						alert("anda bukan owner");
+					});
+				</script>
+				<?php
+				if ($this->session->level>2) {
+				?>
+				<script type="text/javascript">
+					$("#htrans").click(function(){
+						alert("anda bukan superadmin/owner");
+					});
+				</script>
+				<?php
+				}
+				}
+				?>
 	          <!-- <li>
               <a href="#"><span class="fa fa-sticky-note mr-3"></span> Contacts</a>
 	          </li> -->
@@ -218,7 +249,7 @@
 									data_transaksi[i]['customer'],
 									data_transaksi[i]['property'],
 									status,
-									data_transaksi[i]['metode_pembayaran'],
+									data_transaksi[i]['metode'],
 									data_transaksi[i]['waktu_mulai'],
 									data_transaksi[i]['waktu_akhir'],
 									btn_aprov+" "+btn_hapus+" "+btn_cancel

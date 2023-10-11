@@ -19,7 +19,7 @@ class Login extends CI_Controller {
 	 * @see https://codeigniter.com/userguide3/general/urls.html
 	 */
 
-	function __construct(Type $var = null)
+	function __construct()
 	{
 		parent::__construct();
 	}

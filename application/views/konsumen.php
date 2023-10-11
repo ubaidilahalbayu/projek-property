@@ -29,24 +29,24 @@
 		  		<h1><a href="index.html" class="logo">Portfolic <span>Portfolio Agency</span></a></h1>
 	        <ul class="list-unstyled components mb-5">
 	          <li>
-	            <a href="<?= base_url(); ?>web_application/dashboard"><span class="fa fa-tachometer mr-3"></span> Dashboard</a>
+	            <a href="<?= base_url(); ?>myweb/dashboard"><span class="fa fa-tachometer mr-3"></span> Dashboard</a>
 	          </li>
 	          <li class="active">
-	              <a href="<?= base_url(); ?>web_application/konsumen"><span class="fa fa-user mr-3"></span> Konsumen</a>
+	              <a href="<?= base_url(); ?>myweb/konsumen"><span class="fa fa-user mr-3"></span> Konsumen</a>
 	          </li>
 	          <li>
-              <a href="<?= base_url(); ?>web_application/property"><span class="fa fa-briefcase mr-3"></span> Property</a>
+              <a href="<?= base_url(); ?>myweb/property"><span class="fa fa-briefcase mr-3"></span> Property</a>
 	          </li>
 	          <li>
 				<?php
 				$transaksi = "";
 				$pengguna = "";
 				if ($this->session->level<3 && $this->session->level>0) {
-					$transaksi = base_url("web_application/transaksi");
+					$transaksi = base_url("myweb/transaksi");
 				}
 				if ($this->session->level==1) {
-					$transaksi = base_url("web_application/transaksi");
-					$pengguna = base_url("web_application/pengguna");
+					$transaksi = base_url("myweb/transaksi");
+					$pengguna = base_url("myweb/pengguna");
 				}
 				?>
               <a id="htrans" href="<?= $transaksi; ?>"><span class="fa fa-paper-plane mr-3"></span> Transaksi</a>
@@ -55,7 +55,7 @@
               <a id="hpeng" href="<?= $pengguna; ?>"><span class="fa fa-user-o mr-3"></span> Pengguna</a>
 	          </li>
 	          <li>
-              <a href="<?= base_url(); ?>web_application/logout"><span class="fa fa-sign-out mr-3"></span> Logout</a>
+              <a href="<?= base_url(); ?>myweb/logout"><span class="fa fa-sign-out mr-3"></span> Logout</a>
 	          </li>
 			  <?php
 				if ($this->session->level>1) {
@@ -84,7 +84,7 @@
 
 	        <div class="footer">
 	        	<p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This application is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://kodekulaku.com" target="_blank">Colorlib.com</a>
+						  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This application is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://kodekulaku.com" target="_blank">kodekulaku.com</a>
 						  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
 	        </div>
 

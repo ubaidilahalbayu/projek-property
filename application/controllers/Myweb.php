@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Web_Application extends CI_Controller {
+class Myweb extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -19,7 +19,7 @@ class Web_Application extends CI_Controller {
 	 * @see https://codeigniter.com/userguide3/general/urls.html
 	 */
 
-	function __construct(Type $var = null)
+	function __construct()
 	{
 		parent::__construct();
 		if (!isset($this->session->login) || $this->session->level == 4) {

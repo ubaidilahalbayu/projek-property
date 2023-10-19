@@ -26,7 +26,7 @@
 					</button>
 				</div>
 				<div class="p-4">
-		  		<h1><a href="index.html" class="logo">Portfolic <span>Portfolio Agency</span></a></h1>
+		  		<h1><a href="index.html" class="logo">MIS <span>Marketing Information System</span></a></h1>
 	        <ul class="list-unstyled components mb-5">
 	          <li>
 	            <a href="<?= base_url(); ?>myweb/dashboard"><span class="fa fa-tachometer mr-3"></span> Dashboard</a>
@@ -103,24 +103,23 @@
         <form id="form_property">
 			<input type="text" id="id_dummy" name="id_dummy" hidden>
 			<input type="text" id="terjual" name="terjual" hidden>
-			<input type="text" id="waktu_tersedia" name="waktu_tersedia" hidden>
-			<input type="text" id="waktu_terjual" name="waktu_terjual" hidden>
+			<input type="text" id="update_stock" name="update_stock" hidden>
+			<input type="text" id="dummy_stock" name="dummy_stock" hidden>
 		<div class="mb-3">
 			<label for="nama_property" class="form-label">Nama Property</label>
 			<input type="text" class="form-control" id="nama_property" name="nama_property" placeholder="Isi disini">
 		</div>
 		<div class="mb-3">
-			<label for="jenis" class="form-label">Tipe Unit</label>
-			<select class="form-select" aria-label="Default select example" id="jenis" name="jenis">
-			</select>
+			<label for="stock" class="form-label">Stock</label>
+			<input type="number" class="form-control" id="stock" name="stock">
 		</div>
 		<div class="mb-3">
-			<label for="harga" class="form-label">Harga (Rupiah)</label>
-			<input type="text" class="form-control" id="harga" name="harga">
+			<label for="harga" class="form-label">Total Biaya</label>
+			<input type="number" class="form-control" id="harga" name="harga">
 		</div>
 		<div class="mb-3">
-			<label for="deskripsi" class="form-label">deskripsi</label>
-			<textarea class="form-control" id="deskripsi" name="deskripsi" rows="3"></textarea>
+			<label for="deskripsi_property" class="form-label">Deskripsi</label>
+			<textarea class="form-control" id="deskripsi_property" name="deskripsi_property" rows="3"></textarea>
 		</div>
 		</form>
       </div>
@@ -145,11 +144,10 @@
 				<tr>
 					<th scope="col">Nama Property</th>
 					<th scope="col">Deskripsi</th>
-					<th scope="col">Tipe Unit</th>
-					<th scope="col">Harga (Rupiah)</th>
+					<th scope="col">Stock</th>
+					<th scope="col">Total Biaya</th>
 					<th scope="col">Terjual</th>
-					<th scope="col">Waktu Penambahan</th>
-					<th scope="col">Waktu Terjual</th>
+					<th scope="col">Update Stock</th>
 					<th scope="col">Aksi</th>
 				</tr>
 			</thead>
@@ -165,6 +163,7 @@
 
 			var tabel_property = $('#tabel_property').DataTable({
                   "columnDefs": [
+                    { width: "15%", targets: [6] },
                     { className: 'text-center', targets: "_all" },
                     { className: 'align-middle', targets: "_all" }
                   ]
@@ -177,10 +176,10 @@
 				if (res['status']) {
 					data = res['data'];
 					for (let i = 0; i < data.length; i++) {
-						var o = new Option(data[i]['nama_tipe'], data[i]['id_tipe']);
+						var o = new Option(data[i]['stock'], data[i]['id_tipe']);
 						/// jquerify the DOM object 'o' so we can use the html method
-						// $(o).html(data[i]['nama_tipe']);
-						$("#jenis").append(o);
+						// $(o).html(data[i]['stock']);
+						$("#stock").append(o);
 					}
 				}
 			});
@@ -197,21 +196,16 @@
 						var data_property = res['data'];
 						   
 						for(i=0;i<data_property.length;i++){
-							// var no = i+1
-							var terjual = "Belum";
-							if (data_property[i]['terjual']==1) {
-								terjual = "Sudah"
-							}
+							
 							var btn_edit ="<button type='button' class='btn btn-warning btn-sm btn-edit' id_prop='"+data_property[i]['id_property']+"' data-bs-toggle='modal' data-bs-target='#propertyModal'>Edit</button>";
 							var btn_hapus ="<button type='button' class='btn btn-danger btn-sm btn-hapus' id_prop='"+data_property[i]['id_property']+"' nama='"+data_property[i]['nama_property']+"'>Hapus</button>";
 							tabel_property.row.add( [
 									data_property[i]['nama_property'],
-									data_property[i]['deskripsi'],
-									data_property[i]['nama_tipe'],
+									data_property[i]['deskripsi_property'],
+									data_property[i]['stock'],
 									data_property[i]['harga'],
-									terjual,
-									data_property[i]['waktu_tersedia'],
-									data_property[i]['waktu_terjual'],
+									data_property[i]['terjual'],
+									data_property[i]['update_stock'],
 									btn_edit+" "+btn_hapus
 							] ).draw( false );
 						
@@ -223,12 +217,12 @@
 			$("#btn_tambah_property").click(function(){
 				$("#id_dummy").val('');
 				$("#nama_property").val('');
-				$("#deskripsi").val('');
-				$("#jenis").val('');
+				$("#deskripsi_property").val('');
+				$("#stock").val('');
 				$("#harga").val('');
 				$("#terjual").val('0');
-				$("#waktu_tersedia").val('');
-				$("#waktu_terjual").val('');
+				$("#update_stock").val('');
+				$("#dummy_stock").val('');
 			});
 
 			$("#tabel_property tbody").on('click','.btn-edit', function(){
@@ -243,12 +237,12 @@
 				var data = res['data'][0];
                 $("#id_dummy").val(data['id_property']);
 				$("#nama_property").val(data['nama_property']);
-                $("#deskripsi").val(data['deskripsi']);
-                $("#jenis").val(data['jenis']);
+                $("#deskripsi_property").val(data['deskripsi_property']);
+                $("#stock").val(data['stock']);
                 $("#harga").val(data['harga']);
                 $("#terjual").val(data['terjual']);
-                $("#waktu_tersedia").val(data['waktu_tersedia']);
-                $("#waktu_terjual").val(data['waktu_terjual']);
+                $("#update_stock").val(data['update_stock']);
+                $("#dummy_stock").val(data['stock']);
               }); 
        		});
 			
@@ -267,18 +261,17 @@
 				const dateString = currentYear + "-" + (currentMonth + 1) + "-" + currentDayOfMonth;
 				const timeString = currentHours + ":" + currentMinutes + ":" + currentSeconds;
 				var timestamp = dateString + " " + timeString;
-				console.log(timestamp);
+				// console.log(timestamp);
 				
 				if ($("#id_dummy").val()=="") {
 					data = {
 						id_property: "",
 						nama_property: $("#nama_property").val(),
-						deskripsi: $("#deskripsi").val(),
-						jenis: $("#jenis").val(),
+						deskripsi_property: $("#deskripsi_property").val(),
+						stock: $("#stock").val(),
 						harga: $("#harga").val(),
 						terjual: $("#terjual").val(),
-						waktu_tersedia: timestamp,
-						waktu_terjual: $("#waktu_terjual").val()
+						update_stock: timestamp
 					};
 					$.ajax({
 						method: "post",
@@ -295,16 +288,19 @@
 						}
 					});
 				}else{
+					var update_stock = timestamp;
+					if ($("#stock").val()==$("#dummy_stock").val()) {
+						update_stock = $("#update_stock").val();
+					}
 					data = {
 						id_dummy: $("#id_dummy").val(),
 						id_property: $("#id_dummy").val(),
 						nama_property: $("#nama_property").val(),
-						deskripsi: $("#deskripsi").val(),
-						jenis: $("#jenis").val(),
+						deskripsi_property: $("#deskripsi_property").val(),
+						stock: $("#stock").val(),
 						harga: $("#harga").val(),
 						terjual: $("#terjual").val(),
-						waktu_tersedia: $("#waktu_tersedia").val(),
-						waktu_terjual: $("#waktu_terjual").val()
+						update_stock: update_stock
 					};
 					$.ajax({
 						method: "put",
@@ -319,8 +315,8 @@
 							location.reload();
 						}else{
 							if (data['nama_property']==check['nama_property']&&
-							data['deskripsi']==check['deskripsi']&&
-							data['jenis']==check['jenis']&&
+							data['deskripsi_property']==check['deskripsi_property']&&
+							data['stock']==check['stock']&&
 							data['harga']==check['harga']) {
 								alert("data tidak ada yg berubah")
 							}else{

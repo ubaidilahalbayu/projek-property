@@ -6,14 +6,12 @@ class Model_Property extends CI_Model {
     public function get(){
         $this->db->select('*');
         $this->db->from('tb_property');
-        $this->db->join('tb_tipe_unit', 'tb_tipe_unit.id_tipe = tb_property.jenis');
         return $this->db->get()->result_array();
     }
 
     public function getById($id_property){
         $this->db->select('*');
         $this->db->from('tb_property');
-        $this->db->join('tb_tipe_unit', 'tb_tipe_unit.id_tipe = tb_property.jenis');
         $this->db->where('tb_property.id_property', $id_property);
         return $this->db->get()->result_array();
     }

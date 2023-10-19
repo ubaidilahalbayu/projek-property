@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Waktu pembuatan: 10 Okt 2023 pada 04.23
--- Versi server: 10.4.27-MariaDB
--- Versi PHP: 7.4.33
+-- Host: localhost
+-- Generation Time: Oct 20, 2023 at 01:26 AM
+-- Server version: 8.0.34-0ubuntu0.22.04.1
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,25 +24,25 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_customer`
+-- Table structure for table `tb_customer`
 --
 
 CREATE TABLE `tb_customer` (
-  `id_customer` int(11) NOT NULL,
-  `nama_customer` varchar(128) NOT NULL,
-  `nik` varchar(20) NOT NULL,
-  `jenis_kelamin` char(1) NOT NULL,
-  `alamat` text NOT NULL,
-  `pekerjaan` varchar(30) DEFAULT NULL,
-  `no_hp` varchar(20) NOT NULL DEFAULT '+62',
-  `email` varchar(128) DEFAULT '@gmail.com',
-  `waktu_pendaftaran` timestamp NOT NULL DEFAULT current_timestamp(),
-  `level_member` int(11) NOT NULL,
-  `username` varchar(64) DEFAULT NULL
+  `id_customer` int NOT NULL,
+  `nama_customer` varchar(128) COLLATE utf8mb4_general_ci NOT NULL,
+  `nik` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `jenis_kelamin` char(1) COLLATE utf8mb4_general_ci NOT NULL,
+  `alamat` text COLLATE utf8mb4_general_ci NOT NULL,
+  `pekerjaan` varchar(30) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `no_hp` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '+62',
+  `email` varchar(128) COLLATE utf8mb4_general_ci DEFAULT '@gmail.com',
+  `waktu_pendaftaran` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `level_member` int NOT NULL,
+  `username` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_customer`
+-- Dumping data for table `tb_customer`
 --
 
 INSERT INTO `tb_customer` (`id_customer`, `nama_customer`, `nik`, `jenis_kelamin`, `alamat`, `pekerjaan`, `no_hp`, `email`, `waktu_pendaftaran`, `level_member`, `username`) VALUES
@@ -51,29 +51,29 @@ INSERT INTO `tb_customer` (`id_customer`, `nama_customer`, `nik`, `jenis_kelamin
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_gambar`
+-- Table structure for table `tb_gambar`
 --
 
 CREATE TABLE `tb_gambar` (
-  `id_gambar` int(11) NOT NULL,
-  `gambar` text NOT NULL,
-  `jenis_gambar` int(11) NOT NULL,
-  `gambar_for` int(11) NOT NULL
+  `id_gambar` int NOT NULL,
+  `gambar` text COLLATE utf8mb4_general_ci NOT NULL,
+  `jenis_gambar` int NOT NULL,
+  `gambar_for` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_jenis_gamb`
+-- Table structure for table `tb_jenis_gamb`
 --
 
 CREATE TABLE `tb_jenis_gamb` (
-  `id_jenis_gambar` int(11) NOT NULL,
-  `nama_jenis_gambar` varchar(32) NOT NULL
+  `id_jenis_gambar` int NOT NULL,
+  `nama_jenis_gambar` varchar(32) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_jenis_gamb`
+-- Dumping data for table `tb_jenis_gamb`
 --
 
 INSERT INTO `tb_jenis_gamb` (`id_jenis_gambar`, `nama_jenis_gambar`) VALUES
@@ -83,17 +83,17 @@ INSERT INTO `tb_jenis_gamb` (`id_jenis_gambar`, `nama_jenis_gambar`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_lv_member`
+-- Table structure for table `tb_lv_member`
 --
 
 CREATE TABLE `tb_lv_member` (
-  `id_member` int(11) NOT NULL,
-  `member` varchar(64) NOT NULL,
-  `keuntungan` text NOT NULL
+  `id_member` int NOT NULL,
+  `member` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
+  `keuntungan` text COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_lv_member`
+-- Dumping data for table `tb_lv_member`
 --
 
 INSERT INTO `tb_lv_member` (`id_member`, `member`, `keuntungan`) VALUES
@@ -104,17 +104,17 @@ INSERT INTO `tb_lv_member` (`id_member`, `member`, `keuntungan`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_lv_user`
+-- Table structure for table `tb_lv_user`
 --
 
 CREATE TABLE `tb_lv_user` (
-  `id_lv_user` int(11) NOT NULL,
-  `jabatan` varchar(64) NOT NULL,
-  `deskripsi` text NOT NULL
+  `id_lv_user` int NOT NULL,
+  `jabatan` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
+  `deskripsi` text COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_lv_user`
+-- Dumping data for table `tb_lv_user`
 --
 
 INSERT INTO `tb_lv_user` (`id_lv_user`, `jabatan`, `deskripsi`) VALUES
@@ -126,17 +126,17 @@ INSERT INTO `tb_lv_user` (`id_lv_user`, `jabatan`, `deskripsi`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_pembayaran`
+-- Table structure for table `tb_pembayaran`
 --
 
 CREATE TABLE `tb_pembayaran` (
-  `id_pembayaran` int(11) NOT NULL,
-  `metode` varchar(32) NOT NULL,
-  `deskripsi` text NOT NULL
+  `id_pembayaran` int NOT NULL,
+  `metode` varchar(32) COLLATE utf8mb4_general_ci NOT NULL,
+  `deskripsi` text COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_pembayaran`
+-- Dumping data for table `tb_pembayaran`
 --
 
 INSERT INTO `tb_pembayaran` (`id_pembayaran`, `metode`, `deskripsi`) VALUES
@@ -146,41 +146,46 @@ INSERT INTO `tb_pembayaran` (`id_pembayaran`, `metode`, `deskripsi`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_property`
+-- Table structure for table `tb_property`
 --
 
 CREATE TABLE `tb_property` (
-  `id_property` int(11) NOT NULL,
-  `nama_property` varchar(50) DEFAULT 'NamaProperty',
-  `deskripsi` text DEFAULT NULL,
-  `jenis` int(11) NOT NULL,
-  `harga` varchar(128) NOT NULL,
-  `terjual` tinyint(1) NOT NULL,
-  `waktu_tersedia` timestamp NULL DEFAULT current_timestamp(),
-  `waktu_terjual` timestamp NULL DEFAULT NULL
+  `id_property` int NOT NULL,
+  `nama_property` varchar(50) COLLATE utf8mb4_general_ci DEFAULT 'NamaProperty',
+  `deskripsi_property` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `stock` int NOT NULL,
+  `harga` varchar(128) COLLATE utf8mb4_general_ci NOT NULL,
+  `terjual` int NOT NULL,
+  `update_stock` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_property`
+-- Dumping data for table `tb_property`
 --
 
-INSERT INTO `tb_property` (`id_property`, `nama_property`, `deskripsi`, `jenis`, `harga`, `terjual`, `waktu_tersedia`, `waktu_terjual`) VALUES
-(8, 'Rumah blok e', 'qw', 1, '1200000000', 1, '2023-10-09 17:54:03', '2023-10-09 19:08:33'),
-(9, 'Rumah blok eb', 'rumah kecil', 7, '111111111111', 0, '2023-10-10 01:53:27', '0000-00-00 00:00:00');
+INSERT INTO `tb_property` (`id_property`, `nama_property`, `deskripsi_property`, `stock`, `harga`, `terjual`, `update_stock`) VALUES
+(1, 'Alamanda', 'Rumah', 9, '200000000', 1, '2023-10-19 18:17:14'),
+(2, 'Amrilis', 'Rumah', 10, '200000000', 0, '2023-10-19 13:51:19'),
+(3, 'Aster', 'Rumah', 10, '200000000', 0, '2023-10-19 13:51:22'),
+(4, 'Bluebell', 'Rumah', 10, '200000000', 0, '2023-10-19 13:52:50'),
+(5, 'Brassicca', 'Rumah', 10, '200000000', 0, '2023-10-19 13:56:35'),
+(6, 'Watercress', 'Rumah', 10, '200000000', 0, '2023-10-19 13:56:36'),
+(7, 'Willow', 'Rumah', 10, '200000000', 0, '2023-10-19 13:56:37'),
+(8, 'Kavling', 'Tanah 165Ha', 10, '100000000', 0, '2023-10-19 13:58:49');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_tipe_unit`
+-- Table structure for table `tb_tipe_unit`
 --
 
 CREATE TABLE `tb_tipe_unit` (
-  `id_tipe` int(11) NOT NULL,
-  `nama_tipe` varchar(128) DEFAULT 'NamaJenis'
+  `id_tipe` int NOT NULL,
+  `nama_tipe` varchar(128) COLLATE utf8mb4_general_ci DEFAULT 'NamaJenis'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_tipe_unit`
+-- Dumping data for table `tb_tipe_unit`
 --
 
 INSERT INTO `tb_tipe_unit` (`id_tipe`, `nama_tipe`) VALUES
@@ -196,41 +201,42 @@ INSERT INTO `tb_tipe_unit` (`id_tipe`, `nama_tipe`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_transaksi`
+-- Table structure for table `tb_transaksi`
 --
 
 CREATE TABLE `tb_transaksi` (
-  `id_transaksi` int(11) NOT NULL,
-  `customer` int(11) NOT NULL,
-  `property` int(11) NOT NULL,
+  `id_transaksi` int NOT NULL,
+  `customer` int NOT NULL,
+  `property` int NOT NULL,
+  `harga_buka` int NOT NULL,
   `status` tinyint(1) NOT NULL,
-  `metode_pembayaran` int(11) NOT NULL,
-  `waktu_mulai` timestamp NULL DEFAULT current_timestamp(),
+  `metode_pembayaran` int NOT NULL,
+  `waktu_mulai` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `waktu_akhir` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_transaksi`
+-- Dumping data for table `tb_transaksi`
 --
 
-INSERT INTO `tb_transaksi` (`id_transaksi`, `customer`, `property`, `status`, `metode_pembayaran`, `waktu_mulai`, `waktu_akhir`) VALUES
-(6, 2, 9, 0, 1, '2023-10-10 01:54:17', '0000-00-00 00:00:00');
+INSERT INTO `tb_transaksi` (`id_transaksi`, `customer`, `property`, `harga_buka`, `status`, `metode_pembayaran`, `waktu_mulai`, `waktu_akhir`) VALUES
+(11, 2, 1, 300000000, 1, 1, '2023-10-19 18:17:04', '2023-10-19 18:17:14');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_user`
+-- Table structure for table `tb_user`
 --
 
 CREATE TABLE `tb_user` (
-  `username` varchar(64) NOT NULL,
-  `password` text NOT NULL,
-  `level` int(11) NOT NULL,
+  `username` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
+  `password` text COLLATE utf8mb4_general_ci NOT NULL,
+  `level` int NOT NULL,
   `aktif` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_user`
+-- Dumping data for table `tb_user`
 --
 
 INSERT INTO `tb_user` (`username`, `password`, `level`, `aktif`) VALUES
@@ -245,7 +251,7 @@ INSERT INTO `tb_user` (`username`, `password`, `level`, `aktif`) VALUES
 --
 
 --
--- Indeks untuk tabel `tb_customer`
+-- Indexes for table `tb_customer`
 --
 ALTER TABLE `tb_customer`
   ADD PRIMARY KEY (`id_customer`),
@@ -253,51 +259,51 @@ ALTER TABLE `tb_customer`
   ADD KEY `fk_member` (`level_member`);
 
 --
--- Indeks untuk tabel `tb_gambar`
+-- Indexes for table `tb_gambar`
 --
 ALTER TABLE `tb_gambar`
   ADD PRIMARY KEY (`id_gambar`),
   ADD KEY `fk_jns_gbr` (`jenis_gambar`);
 
 --
--- Indeks untuk tabel `tb_jenis_gamb`
+-- Indexes for table `tb_jenis_gamb`
 --
 ALTER TABLE `tb_jenis_gamb`
   ADD PRIMARY KEY (`id_jenis_gambar`);
 
 --
--- Indeks untuk tabel `tb_lv_member`
+-- Indexes for table `tb_lv_member`
 --
 ALTER TABLE `tb_lv_member`
   ADD PRIMARY KEY (`id_member`);
 
 --
--- Indeks untuk tabel `tb_lv_user`
+-- Indexes for table `tb_lv_user`
 --
 ALTER TABLE `tb_lv_user`
   ADD PRIMARY KEY (`id_lv_user`);
 
 --
--- Indeks untuk tabel `tb_pembayaran`
+-- Indexes for table `tb_pembayaran`
 --
 ALTER TABLE `tb_pembayaran`
   ADD PRIMARY KEY (`id_pembayaran`);
 
 --
--- Indeks untuk tabel `tb_property`
+-- Indexes for table `tb_property`
 --
 ALTER TABLE `tb_property`
   ADD PRIMARY KEY (`id_property`),
-  ADD KEY `fk_jenis` (`jenis`);
+  ADD KEY `fk_jenis` (`stock`);
 
 --
--- Indeks untuk tabel `tb_tipe_unit`
+-- Indexes for table `tb_tipe_unit`
 --
 ALTER TABLE `tb_tipe_unit`
   ADD PRIMARY KEY (`id_tipe`);
 
 --
--- Indeks untuk tabel `tb_transaksi`
+-- Indexes for table `tb_transaksi`
 --
 ALTER TABLE `tb_transaksi`
   ADD PRIMARY KEY (`id_transaksi`),
@@ -306,94 +312,88 @@ ALTER TABLE `tb_transaksi`
   ADD KEY `fk_pembayaran` (`metode_pembayaran`);
 
 --
--- Indeks untuk tabel `tb_user`
+-- Indexes for table `tb_user`
 --
 ALTER TABLE `tb_user`
   ADD PRIMARY KEY (`username`),
   ADD KEY `fk_level` (`level`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `tb_customer`
+-- AUTO_INCREMENT for table `tb_customer`
 --
 ALTER TABLE `tb_customer`
-  MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_customer` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_gambar`
+-- AUTO_INCREMENT for table `tb_gambar`
 --
 ALTER TABLE `tb_gambar`
-  MODIFY `id_gambar` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_gambar` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_jenis_gamb`
+-- AUTO_INCREMENT for table `tb_jenis_gamb`
 --
 ALTER TABLE `tb_jenis_gamb`
-  MODIFY `id_jenis_gambar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_jenis_gambar` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_lv_member`
+-- AUTO_INCREMENT for table `tb_lv_member`
 --
 ALTER TABLE `tb_lv_member`
-  MODIFY `id_member` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_member` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_lv_user`
+-- AUTO_INCREMENT for table `tb_lv_user`
 --
 ALTER TABLE `tb_lv_user`
-  MODIFY `id_lv_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_lv_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_pembayaran`
+-- AUTO_INCREMENT for table `tb_pembayaran`
 --
 ALTER TABLE `tb_pembayaran`
-  MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_pembayaran` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_property`
+-- AUTO_INCREMENT for table `tb_property`
 --
 ALTER TABLE `tb_property`
-  MODIFY `id_property` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_property` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_tipe_unit`
+-- AUTO_INCREMENT for table `tb_tipe_unit`
 --
 ALTER TABLE `tb_tipe_unit`
-  MODIFY `id_tipe` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_tipe` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_transaksi`
+-- AUTO_INCREMENT for table `tb_transaksi`
 --
 ALTER TABLE `tb_transaksi`
-  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_transaksi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `tb_customer`
+-- Constraints for table `tb_customer`
 --
 ALTER TABLE `tb_customer`
   ADD CONSTRAINT `fk_member` FOREIGN KEY (`level_member`) REFERENCES `tb_lv_member` (`id_member`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `tb_gambar`
+-- Constraints for table `tb_gambar`
 --
 ALTER TABLE `tb_gambar`
   ADD CONSTRAINT `fk_jns_gbr` FOREIGN KEY (`jenis_gambar`) REFERENCES `tb_jenis_gamb` (`id_jenis_gambar`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `tb_property`
---
-ALTER TABLE `tb_property`
-  ADD CONSTRAINT `fk_jenis` FOREIGN KEY (`jenis`) REFERENCES `tb_tipe_unit` (`id_tipe`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Ketidakleluasaan untuk tabel `tb_transaksi`
+-- Constraints for table `tb_transaksi`
 --
 ALTER TABLE `tb_transaksi`
   ADD CONSTRAINT `fk_customer` FOREIGN KEY (`customer`) REFERENCES `tb_customer` (`id_customer`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -401,7 +401,7 @@ ALTER TABLE `tb_transaksi`
   ADD CONSTRAINT `fk_property` FOREIGN KEY (`property`) REFERENCES `tb_property` (`id_property`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `tb_user`
+-- Constraints for table `tb_user`
 --
 ALTER TABLE `tb_user`
   ADD CONSTRAINT `fk_level` FOREIGN KEY (`level`) REFERENCES `tb_lv_user` (`id_lv_user`) ON DELETE CASCADE ON UPDATE CASCADE;

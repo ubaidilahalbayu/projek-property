@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+	<!-- <link rel="icon" type="image/png" href="<?= base_url(); ?>assets2/images/icons/favicon.ico"/> -->
+
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -26,7 +28,7 @@
 					</button>
 				</div>
 				<div class="p-4">
-		  		<h1><a href="index.html" class="logo">Portfolic <span>Portfolio Agency</span></a></h1>
+		  		<h1><a href="index.html" class="logo">MIS <span>Marketing Information System</span></a></h1>
 	        <ul class="list-unstyled components mb-5">
 	          <li>
 	            <a href="<?= base_url(); ?>myweb/dashboard"><span class="fa fa-tachometer mr-3"></span> Dashboard</a>
@@ -91,6 +93,32 @@
 	      </div>
     	</nav>
 
+
+<!-- Modal -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Transaksi</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p id="price"></p>
+        <p id="dpp"></p>
+        <p id="ppn"></p>
+        <p id="bphtb"></p>
+		<p id="total_biaya"></p>
+		<p id="laba"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Download</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <!-- Modal -->
 <div class="modal fade" id="transaksiModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -123,6 +151,10 @@
 			<option value="">Pilih</option>
 			</select>
 		</div>
+		<div class="mb-3">
+			<label for="harga_buka" class="form-label">Harga Buka(Rupiah)</label>
+			<input type="number" class="form-control" id="harga_buka" name="harga_buka">
+		</div>
 		</form>
       </div>
       <div class="modal-footer">
@@ -148,6 +180,7 @@
 					<th scope="col">Customer</th>
 					<th scope="col">Properti</th>
 					<th scope="col">Status</th>
+					<th scope="col">Harga Buka(Rp.)</th>
 					<th scope="col">Metode Pembayaran</th>
 					<th scope="col">Waktu Mulai</th>
 					<th scope="col">Waktu Akhir</th>
@@ -166,6 +199,8 @@
 
 			var tabel_transaksi = $('#tabel_transaksi').DataTable({
                   "columnDefs": [
+                    { width: '15%', targets: [3] },
+                    // { width: '15%', targets: [8] },
                     { className: 'text-center', targets: "_all" },
                     { className: 'align-middle', targets: "_all" }
                   ]
@@ -178,8 +213,8 @@
 				if (res['status']) {
 					data = res['data'];
 					for (let i = 0; i < data.length; i++) {
-						if (data[i]['terjual']==0) {
-							var o = new Option("("+data[i]['id_property']+") "+data[i]['nama_property']+" ("+data[i]['harga']+")", data[i]['id_property']);
+						if (data[i]['stock']>0) {
+							var o = new Option(data[i]['nama_property']+"("+data[i]['deskripsi']+") Stock("+data[i]['stock']+")", data[i]['id_property']);
 							/// jquerify the DOM object 'o' so we can use the html method
 							// $(o).html(data[i]['nama_tipe']);
 							$("#property").append(o);
@@ -229,30 +264,45 @@
 						   
 						for(i=0;i<data_transaksi.length;i++){
 							// var no = i+1
-							var status = "On Going";
+							var dpp = (parseInt(data_transaksi[i]['harga_buka'])+3000000)/1.16;
+							var ppn = 11/100*dpp;
+							var bphtb = (dpp-60000000)*5/100;
+							var btn_status = "btn-warning";
+							if (dpp > data_transaksi[i]['harga']) {
+								btn_status = "btn-success";
+							}else if(dpp < data_transaksi[i]['harga']){
+								btn_status = "btn-danger";
+							}
+							// console.log(parseInt(data_transaksi[i]['harga']));
+
+							var status = "<button type='button' class='btn "+btn_status+" btn-sm btn-status' id_trans='"+data_transaksi[i]['id_transaksi']+"' data-bs-toggle='modal' data-bs-target='#detailModal'>On Going</button>";
+							var btn_update = "<button type='button' class='btn btn-warning btn-sm btn-edit' id_trans='"+data_transaksi[i]['id_transaksi']+"' data-bs-toggle='modal' data-bs-target='#transaksiModal'>Update</button>";
 							var btn_hapus ="";
-							var btn_aprov ="<button type='button' class='btn btn-warning btn-sm btn-aprov' id_trans='"+data_transaksi[i]['id_transaksi']+"' id_prop='"+data_transaksi[i]['property']+"'>Aprove</button>";
+							var btn_aprov ="<button type='button' class='btn btn-success btn-sm btn-aprov' id_trans='"+data_transaksi[i]['id_transaksi']+"' id_prop='"+data_transaksi[i]['property']+"' terjual='"+data_transaksi[i]['terjual']+"' stock='"+data_transaksi[i]['stock']+"' >Aprove</button>";
 							var btn_cancel ="<button type='button' class='btn btn-danger btn-sm btn-cancel' id_trans='"+data_transaksi[i]['id_transaksi']+"'>Cancel</button>";
 							if (data_transaksi[i]['status']==1) {
-								status = "Aproved";
+								status = "<button type='button' class='btn btn-success btn-sm btn-status' id_trans='"+data_transaksi[i]['id_transaksi']+"' data-bs-toggle='modal' data-bs-target='#detailModal'>Aproved</button>";
+								btn_update ="";
 								btn_aprov ="";
 								btn_cancel ="";
 								btn_hapus ="<button type='button' class='btn btn-danger btn-sm btn-hapus' id_trans='"+data_transaksi[i]['id_transaksi']+"'>Hapus</button>";
 							}else if (data_transaksi[i]['status']==2) {
-								status = "Canceled";
+								status = "<button type='button' class='btn btn-warning btn-sm btn-status' id_trans='"+data_transaksi[i]['id_transaksi']+"' data-bs-toggle='modal' data-bs-target='#detailModal'>Canceled</button>";
+								btn_update ="";
 								btn_aprov ="";
 								btn_cancel ="";
 								btn_hapus ="<button type='button' class='btn btn-danger btn-sm btn-hapus' id_trans='"+data_transaksi[i]['id_transaksi']+"'>Hapus</button>";
 							}
 							tabel_transaksi.row.add( [
 									data_transaksi[i]['id_transaksi'],
-									data_transaksi[i]['customer'],
-									data_transaksi[i]['property'],
+									data_transaksi[i]['nama_customer'],
+									data_transaksi[i]['nama_property'],
 									status,
+									data_transaksi[i]['harga_buka'],
 									data_transaksi[i]['metode'],
 									data_transaksi[i]['waktu_mulai'],
 									data_transaksi[i]['waktu_akhir'],
-									btn_aprov+" "+btn_hapus+" "+btn_cancel
+									btn_aprov+" "+btn_update+" "+btn_hapus+" "+btn_cancel
 							] ).draw( false );
 						
 						}
@@ -266,13 +316,70 @@
 				$("#property").val('');
 				$("#metode_pembayaran").val('');
 				$("#status").val('0');
+				$("#harga_buka").val('0');
 				$("#waktu_mulai").val('');
 				$("#waktu_akhir").val('');
+			});
+
+			$("#tabel_transaksi tbody").on('click','.btn-status', function(){
+            var id = $(this).attr('id_trans');
+            $.ajax({
+                url: base_url+"api/transaksi",
+				method: "get",
+				data: {
+					id_transaksi: id
+				}
+              }).done(function( res ) {
+				var data = res['data'][0];
+				var dpp = (parseInt(data['harga_buka'])+3000000)/1.16;
+				var ppn = 11/100*dpp;
+				var bphtb = (dpp-60000000)*5/100;
+				var laba = dpp-parseInt(data['harga']);
+				var labapersen = laba/dpp*100;
+				
+				// console.log(data);
+				$("#price").empty();
+				$("#price").append("<b>Price</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  Rp. "+data['harga_buka']);
+				$("#dpp").empty();
+				$("#dpp").append("<b>DPP</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  Rp. "+parseInt(dpp));
+				$("#ppn").empty();
+				$("#ppn").append("<b>PPn</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  Rp. "+parseInt(ppn));
+				$("#bphtb").empty();
+				$("#bphtb").append("<b>BPHTB</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  Rp. "+parseInt(bphtb));
+				$("#total_biaya").empty();
+				$("#total_biaya").append("<b>Total Biaya</b>&ensp;:  Rp. "+data['harga']);
+				$("#laba").empty();
+				$("#laba").append("<b>Laba(Rugi)</b>&ensp;:  Rp. "+parseInt(laba)+" ("+parseInt(labapersen)+"%)");
+			  });
+			});
+
+			$("#tabel_transaksi tbody").on('click','.btn-edit', function(){
+            var id = $(this).attr('id_trans');
+            $.ajax({
+                url: base_url+"api/transaksi",
+				method: "get",
+				data: {
+					id_transaksi: id
+				}
+              }).done(function( res ) {
+				var data = res['data'][0];
+				$("#id_dummy").val(data['id_transaksi']);
+				$("#customer").val(data['customer']);
+				$("#property").val(data['property']);
+				$("#metode_pembayaran").val(data['metode_pembayaran']);
+				$("#status").val(data['status']);
+				$("#harga_buka").val(data['harga_buka']);
+				$("#waktu_mulai").val(data['waktu_mulai']);
+				$("#waktu_akhir").val(data['waktu_akhir']);
+			  });
 			});
 
 			$("#tabel_transaksi tbody").on('click','.btn-aprov', function(){
             	var id = $(this).attr('id_trans');
             	var id_prop = $(this).attr('id_prop');
+            	var terjual = parseInt($(this).attr('terjual'))+1;
+            	var stock = parseInt($(this).attr('stock'))-1;
+				console.log(stock);
             	if(confirm("Apakah transaksi "+id+" akan diaprove?")){
 					
 				const currentDate = new Date();
@@ -309,8 +416,9 @@
 					data: {
 						id_dummy: id_prop,
 						id_property: id_prop,
-						terjual: 1,
-						waktu_terjual: timestamp
+						stock: stock,
+						terjual: terjual,
+						update_stock: timestamp
 					}
 				}).done(function( res ) {
 					if(res['status']){
@@ -386,6 +494,7 @@
 							property: $("#property").val(),
 							metode_pembayaran: $("#metode_pembayaran").val(),
 							status: $("#status").val(),
+							harga_buka: $("#harga_buka").val(),
 							waktu_mulai: timestamp,
 							waktu_akhir: $("#waktu_akhir").val()
 						};
@@ -394,7 +503,7 @@
 							url: base_url+"api/transaksi",
 							data: data
 						}).done(function(res){
-							console.log(res);
+							// console.log(res);
 							if (res['status']) {
 								$("#transaksiModal").modal("hide");
 								alert("Success!");
@@ -411,6 +520,7 @@
 							property: $("#property").val(),
 							metode_pembayaran: $("#metode_pembayaran").val(),
 							status: $("#status").val(),
+							harga_buka: $("#harga_buka").val(),
 							waktu_mulai: $("#waktu_mulai").val(),
 							waktu_akhir: $("#waktu_akhir").val()
 						};
@@ -428,7 +538,8 @@
 							}else{
 								if (data['customer']==check['customer']&&
 								data['property']==check['property']&&
-								data['metode_pembayaran']==check['metode_pembayaran']) {
+								data['metode_pembayaran']==check['metode_pembayaran']&&
+								data['harga_buka']==check['harga_buka']) {
 									alert("data tidak ada yg berubah")
 								}else{
 									alert("Failed!!");

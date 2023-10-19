@@ -23,7 +23,7 @@
 					</button>
 				</div>
 				<div class="p-4">
-		  		<h1><a href="index.html" class="logo">Portfolic <span>Portfolio Agency</span></a></h1>
+		  		<h1><a href="index.html" class="logo">MIS <span>Marketing Information System</span></a></h1>
 	        <ul class="list-unstyled components mb-5">
 	          <li class="active">
 	            <a href="<?= base_url(); ?>myweb/dashboard"><span class="fa fa-tachometer mr-3"></span> Dashboard</a>

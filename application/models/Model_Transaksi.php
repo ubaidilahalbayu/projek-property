@@ -7,6 +7,8 @@ class Model_Transaksi extends CI_Model {
         $this->db->select('*');
         $this->db->from('tb_transaksi');
         $this->db->join('tb_pembayaran', 'tb_pembayaran.id_pembayaran = tb_transaksi.metode_pembayaran');
+        $this->db->join('tb_customer', 'tb_customer.id_customer = tb_transaksi.customer');
+        $this->db->join('tb_property', 'tb_property.id_property = tb_transaksi.property');
         return $this->db->get()->result_array();
     }
 
@@ -14,6 +16,8 @@ class Model_Transaksi extends CI_Model {
         $this->db->select('*');
         $this->db->from('tb_transaksi');
         $this->db->join('tb_pembayaran', 'tb_pembayaran.id_pembayaran = tb_transaksi.metode_pembayaran');
+        $this->db->join('tb_customer', 'tb_customer.id_customer = tb_transaksi.customer');
+        $this->db->join('tb_property', 'tb_property.id_property = tb_transaksi.property');
         $this->db->where('tb_transaksi.id_transaksi', $id_transaksi);
         return $this->db->get()->result_array();
     }

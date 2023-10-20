@@ -118,8 +118,36 @@
 			<input type="number" class="form-control" id="harga" name="harga">
 		</div>
 		<div class="mb-3">
-			<label for="deskripsi_property" class="form-label">Deskripsi</label>
-			<textarea class="form-control" id="deskripsi_property" name="deskripsi_property" rows="3"></textarea>
+			<label for="jenis_property" class="form-label">Jenis Property</label>
+			<select class="form-select" aria-label="Default select example" id="jenis_property" name="jenis_property">
+  				<option value="">Pilih</option>
+  				<option value="1">Tanah</option>
+  				<option value="2">Rumah</option>
+			</select>
+		</div>
+		<div class="mb-3">
+			<label for="luas_tanah" class="form-label">Luas Tanah</label>
+			<input type="number" class="form-control" id="luas_tanah" name="luas_tanah">
+		</div>
+		<div class="mb-3">
+			<label for="luas_bangunan" class="form-label">Luas Bangunan</label>
+			<input type="number" class="form-control" id="luas_bangunan" name="luas_bangunan">
+		</div>
+		<div class="mb-3">
+			<label for="hpp_tanah" class="form-label">HPP Tanah</label>
+			<input type="number" class="form-control" id="hpp_tanah" name="hpp_tanah">
+		</div>
+		<div class="mb-3">
+			<label for="hpp_bangunan" class="form-label">HPP Bangunan</label>
+			<input type="number" class="form-control" id="hpp_bangunan" name="hpp_bangunan">
+		</div>
+		<div class="mb-3">
+			<label for="infrastruktur" class="form-label">Infrastruktur</label>
+			<input type="number" class="form-control" id="infrastruktur" name="infrastruktur">
+		</div>
+		<div class="mb-3">
+			<label for="ajb" class="form-label">AJB</label>
+			<input type="number" class="form-control" id="ajb" name="ajb">
 		</div>
 		</form>
       </div>
@@ -168,6 +196,52 @@
                     { className: 'align-middle', targets: "_all" }
                   ]
                 });
+			$('#luas_tanah').hide();
+			$('label[for="luas_tanah"]').hide();
+			$('#luas_bangunan').hide();
+			$('label[for="luas_bangunan"]').hide();
+			$('#hpp_tanah').hide();
+			$('label[for="hpp_tanah"]').hide();
+			$('#hpp_bangunan').hide();
+			$('label[for="hpp_bangunan"]').hide();
+			$('#infrastruktur').hide();
+			$('label[for="infrastruktur"]').hide();
+			$('#jenis_property').on('change', function() {
+				if (this.value == 1) {
+					$('#luas_tanah').show();
+					$('label[for="luas_tanah"]').show();
+					$('#luas_bangunan').hide();
+					$('label[for="luas_bangunan"]').hide();
+					$('#hpp_tanah').show();
+					$('label[for="hpp_tanah"]').show();
+					$('#hpp_bangunan').hide();
+					$('label[for="hpp_bangunan"]').hide();
+					$('#infrastruktur').hide();
+					$('label[for="infrastruktur"]').hide();
+				}else if(this.value == 2){
+					$('#luas_tanah').show();
+					$('label[for="luas_tanah"]').show();
+					$('#luas_bangunan').show();
+					$('label[for="luas_bangunan"]').show();
+					$('#hpp_tanah').show();
+					$('label[for="hpp_tanah"]').show();
+					$('#hpp_bangunan').show();
+					$('label[for="hpp_bangunan"]').show();
+					$('#infrastruktur').show();
+					$('label[for="infrastruktur"]').show();
+				}else{
+					$('#luas_tanah').hide();
+					$('label[for="luas_tanah"]').hide();
+					$('#luas_bangunan').hide();
+					$('label[for="luas_bangunan"]').hide();
+					$('#hpp_tanah').hide();
+					$('label[for="hpp_tanah"]').hide();
+					$('#hpp_bangunan').hide();
+					$('label[for="hpp_bangunan"]').hide();
+					$('#infrastruktur').hide();
+					$('label[for="infrastruktur"]').hide();
+				}
+			});
 			renderTabelProperty();
 			$.ajax({
 				url: base_url+"api/property/tipeunit"
@@ -196,7 +270,8 @@
 						var data_property = res['data'];
 						   
 						for(i=0;i<data_property.length;i++){
-							
+							var desk = JSON.parse(data_property[i]['deskripsi_property']);
+							console.log(desk['jenis_property']);
 							var btn_edit ="<button type='button' class='btn btn-warning btn-sm btn-edit' id_prop='"+data_property[i]['id_property']+"' data-bs-toggle='modal' data-bs-target='#propertyModal'>Edit</button>";
 							var btn_hapus ="<button type='button' class='btn btn-danger btn-sm btn-hapus' id_prop='"+data_property[i]['id_property']+"' nama='"+data_property[i]['nama_property']+"'>Hapus</button>";
 							tabel_property.row.add( [

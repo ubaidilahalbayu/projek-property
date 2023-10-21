@@ -207,8 +207,15 @@
 				if (res['status']) {
 					data = res['data'];
 					for (let i = 0; i < data.length; i++) {
+						var desk = JSON.parse(data[i]['deskripsi_property']);
+						var jenis = "";
+						if (desk['jenis_property']==1) {
+							jenis = "Tanah";
+						}else if (desk['jenis_property']==2) {
+							jenis = "Rumah";
+						}
 						if (data[i]['stock']>0) {
-							var o = new Option(data[i]['nama_property']+"("+data[i]['deskripsi']+") Stock("+data[i]['stock']+")", data[i]['id_property']);
+							var o = new Option(data[i]['nama_property']+"("+jenis+") Stock("+data[i]['stock']+")", data[i]['id_property']);
 							/// jquerify the DOM object 'o' so we can use the html method
 							// $(o).html(data[i]['nama_tipe']);
 							$("#property").append(o);
@@ -336,18 +343,20 @@
 				var closing_fee = 0;
 				var komisi_fee = 0;
 				var pph_final = dpp * 2.5/100;
-				var isi_detail = "<p><b>Price</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  Rp. "+data['harga_buka']+"</p>"+
-							"<p><b>DPP</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  Rp. "+parseInt(dpp)+"</p>"+
-							"<p><b>PPn</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  Rp. "+parseInt(ppn)+"</p>"
+				var isi_detail = "<p><b>Price</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  Rp. "+data['harga_buka']+"</p>"+
+							"<p><b>DPP</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&nbsp;:  Rp. "+parseInt(dpp)+"</p>"+
+							"<p><b>PPn</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&nbsp;:  Rp. "+parseInt(ppn)+"</p>"+
+							"<p><b>BPHTB</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  Rp. "+parseInt(bphtb)+"</p>";
 
 				$("#isi_detail").empty();
 
 				if (desk['jenis_property'] == 1) {
-					jenis = "Tanah";
 					hpp_tanah = parseInt(desk['luas_tanah']) * parseInt(desk['hpp_tanah']);
 					komisi_fee = parseInt(data['harga_buka']) * 1.375/100;
+					isi_detail += "<p><b>Jenis</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&nbsp;&nbsp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  Tanah</p>"+
+								"<p><b>HPP Tanah</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&nbsp;:  "+parseInt(hpp_tanah)+"</p>"+
+								"<p><b>Komisi Fee</b>&ensp;&nbsp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  "+parseInt(komisi_fee)+"</p>";
 				}else if (desk['jenis_property'] == 2) {
-					jenis = "Rumah";
 					hpp_tanah = parseInt(desk['luas_tanah']) * parseInt(desk['hpp_tanah']);
 					hpp_bangunan = parseInt(desk['luas_bangunan']) * parseInt(desk['hpp_bangunan']);
 					hpp_infrastruktur = parseInt(desk['infrastruktur']) * parseInt(desk['luas_tanah']);
@@ -356,22 +365,23 @@
 						closing_fee = 4000000;
 					}
 					komisi_fee = dpp * 1.25/100;
+					isi_detail += "<p><b>Jenis</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&nbsp;&nbsp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  Rumah</p>"+
+								"<p><b>HPP Tanah</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&nbsp;:  "+parseInt(hpp_tanah)+"</p>"+
+								"<p><b>HPP Bangunan</b>&ensp;&ensp;&ensp;&nbsp;:  "+parseInt(hpp_bangunan)+"</p>"+
+								"<p><b>HPP Infrastruktur</b>&ensp;:  "+parseInt(hpp_infrastruktur)+"</p>"+
+								"<p><b>Closing Fee</b>&ensp;&nbsp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  "+parseInt(closing_fee)+"</p>"+
+								"<p><b>Komisi Fee</b>&ensp;&nbsp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  "+parseInt(komisi_fee)+"</p>";
 				}
 				var total_biaya = hpp_tanah + hpp_bangunan + hpp_infrastruktur + closing_fee + komisi_fee + pph_final;
 				var laba = dpp-total_biaya;
 				var labapersen = laba/dpp*100;
-				// console.log(total_biaya);
+				isi_detail += "<p><b>PPh Final</b>&ensp;&ensp;&ensp;&nbsp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  "+parseInt(pph_final)+"</p>"+
+							"<p><b>AJB</b>&ensp;&ensp;&ensp;&nbsp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  "+parseInt(ajb)+"</p>"+
+							"<p><b>Total Biaya</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  Rp. "+parseInt(total_biaya)+"</p>"+
+							"<p><b>Laba(Rugi)</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  Rp. "+parseInt(laba)+" ("+parseInt(labapersen)+"%)</p>";
+				
 				$("#isi_detail").append(isi_detail);
-				$("#dpp").empty();
-				$("#dpp").append();
-				$("#ppn").empty();
-				$("#ppn").append();
-				$("#bphtb").empty();
-				$("#bphtb").append("<b>BPHTB</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  Rp. "+parseInt(bphtb));
-				$("#total_biaya").empty();
-				$("#total_biaya").append("<b>Total Biaya</b>&ensp;:  Rp. "+data['harga']);
-				$("#laba").empty();
-				$("#laba").append("<b>Laba(Rugi)</b>&ensp;:  Rp. "+parseInt(laba)+" ("+parseInt(labapersen)+"%)");
+				// console.log(total_biaya);
 			  });
 			});
 

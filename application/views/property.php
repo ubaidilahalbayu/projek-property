@@ -114,10 +114,6 @@
 			<input type="number" class="form-control" id="stock" name="stock">
 		</div>
 		<div class="mb-3">
-			<label for="harga" class="form-label">Total Biaya</label>
-			<input type="number" class="form-control" id="harga" name="harga">
-		</div>
-		<div class="mb-3">
 			<label for="jenis_property" class="form-label">Jenis Property</label>
 			<select class="form-select" aria-label="Default select example" id="jenis_property" name="jenis_property">
   				<option value="">Pilih</option>
@@ -173,7 +169,6 @@
 					<th scope="col">Nama Property</th>
 					<th scope="col">Deskripsi</th>
 					<th scope="col">Stock</th>
-					<th scope="col">Total Biaya</th>
 					<th scope="col">Terjual</th>
 					<th scope="col">Update Stock</th>
 					<th scope="col">Aksi</th>
@@ -191,7 +186,8 @@
 
 			var tabel_property = $('#tabel_property').DataTable({
                   "columnDefs": [
-                    { width: "15%", targets: [6] },
+                    { width: "15%", targets: [5] },
+                    { width: "25%", targets: [1] },
                     { className: 'text-center', targets: "_all" },
                     { className: 'align-middle', targets: "_all" }
                   ]
@@ -271,14 +267,29 @@
 						   
 						for(i=0;i<data_property.length;i++){
 							var desk = JSON.parse(data_property[i]['deskripsi_property']);
-							console.log(desk['jenis_property']);
+							var ajb = desk['ajb'];
+							var deskripsi = "";
+							if (desk['jenis_property']==1) {
+								deskripsi = "<p>Jenis: Tanah</p>"+
+								"<p>Luas Tanah: "+desk['luas_tanah']+"</p>"+
+								"<p>HPP Tanah (/M2): "+desk['hpp_tanah']+"</p>"+
+								"<p>AJB: "+ajb+"</p>";
+							}else if (desk['jenis_property']==2){
+								deskripsi = "<p>Jenis: Rumah</p>"+
+								"<p>Luas Tanah: "+desk['luas_tanah']+"</p>"+
+								"<p>Luas Bangunan: "+desk['luas_bangunan']+"</p>"+
+								"<p>HPP Tanah (/M2): "+desk['hpp_tanah']+"</p>"+
+								"<p>HPP Bangunan (/M2): "+desk['hpp_bangunan']+"</p>"+
+								"<p>Infrastruktur: "+desk['infrastruktur']+"</p>"+
+								"<p>AJB: "+ajb+"</p>";
+							}
+							// console.log(desk['jenis_property']);
 							var btn_edit ="<button type='button' class='btn btn-warning btn-sm btn-edit' id_prop='"+data_property[i]['id_property']+"' data-bs-toggle='modal' data-bs-target='#propertyModal'>Edit</button>";
 							var btn_hapus ="<button type='button' class='btn btn-danger btn-sm btn-hapus' id_prop='"+data_property[i]['id_property']+"' nama='"+data_property[i]['nama_property']+"'>Hapus</button>";
 							tabel_property.row.add( [
 									data_property[i]['nama_property'],
-									data_property[i]['deskripsi_property'],
+									deskripsi,
 									data_property[i]['stock'],
-									data_property[i]['harga'],
 									data_property[i]['terjual'],
 									data_property[i]['update_stock'],
 									btn_edit+" "+btn_hapus
@@ -292,12 +303,28 @@
 			$("#btn_tambah_property").click(function(){
 				$("#id_dummy").val('');
 				$("#nama_property").val('');
-				$("#deskripsi_property").val('');
-				$("#stock").val('');
-				$("#harga").val('');
+				$("#stock").val('0');
 				$("#terjual").val('0');
 				$("#update_stock").val('');
 				$("#dummy_stock").val('');
+				$("#jenis_property").val('');
+				$("#luas_tanah").val('0');
+				$("#hpp_tanah").val('0');
+				$("#luas_bangunan").val('0');
+				$("#hpp_bangunan").val('0');
+				$("#infrastruktur").val('0');
+				$("#ajb").val('0');
+
+				$('#luas_tanah').hide();
+				$('label[for="luas_tanah"]').hide();
+				$('#luas_bangunan').hide();
+				$('label[for="luas_bangunan"]').hide();
+				$('#hpp_tanah').hide();
+				$('label[for="hpp_tanah"]').hide();
+				$('#hpp_bangunan').hide();
+				$('label[for="hpp_bangunan"]').hide();
+				$('#infrastruktur').hide();
+				$('label[for="infrastruktur"]').hide();
 			});
 
 			$("#tabel_property tbody").on('click','.btn-edit', function(){
@@ -310,14 +337,49 @@
 				}
               }).done(function( res ) {
 				var data = res['data'][0];
+				var desk = JSON.parse(data['deskripsi_property']);
+				// console.log(desk['jenis_property']);
                 $("#id_dummy").val(data['id_property']);
 				$("#nama_property").val(data['nama_property']);
-                $("#deskripsi_property").val(data['deskripsi_property']);
                 $("#stock").val(data['stock']);
-                $("#harga").val(data['harga']);
                 $("#terjual").val(data['terjual']);
                 $("#update_stock").val(data['update_stock']);
                 $("#dummy_stock").val(data['stock']);
+				$("#jenis_property").val(desk['jenis_property']);
+				$("#luas_tanah").val(desk['luas_tanah']);
+				$("#hpp_tanah").val(desk['hpp_tanah']);
+				$("#luas_bangunan").val(desk['luas_bangunan']);
+				$("#hpp_bangunan").val(desk['hpp_bangunan']);
+				$("#infrastruktur").val(desk['infrastruktur']);
+				$("#ajb").val(desk['ajb']);
+
+				if (desk['jenis_property'] == 1) {
+					$("#luas_bangunan").val('0');
+					$("#hpp_bangunan").val('0');
+					$("#infrastruktur").val('0');
+
+					$('#luas_tanah').show();
+					$('label[for="luas_tanah"]').show();
+					$('#luas_bangunan').hide();
+					$('label[for="luas_bangunan"]').hide();
+					$('#hpp_tanah').show();
+					$('label[for="hpp_tanah"]').show();
+					$('#hpp_bangunan').hide();
+					$('label[for="hpp_bangunan"]').hide();
+					$('#infrastruktur').hide();
+					$('label[for="infrastruktur"]').hide();
+				}else if(desk['jenis_property'] == 2){
+					$('#luas_tanah').show();
+					$('label[for="luas_tanah"]').show();
+					$('#luas_bangunan').show();
+					$('label[for="luas_bangunan"]').show();
+					$('#hpp_tanah').show();
+					$('label[for="hpp_tanah"]').show();
+					$('#hpp_bangunan').show();
+					$('label[for="hpp_bangunan"]').show();
+					$('#infrastruktur').show();
+					$('label[for="infrastruktur"]').show();
+				}
               }); 
        		});
 			
@@ -337,14 +399,32 @@
 				const timeString = currentHours + ":" + currentMinutes + ":" + currentSeconds;
 				var timestamp = dateString + " " + timeString;
 				// console.log(timestamp);
-				
+				var desk = '';
+				if ($("#jenis_property").val()==1) {
+					desk = '{'+
+						'"jenis_property": '+$("#jenis_property").val()+', '+
+						'"luas_tanah": '+$("#luas_tanah").val()+', '+
+						'"hpp_tanah": '+$("#hpp_tanah").val()+', '+
+						'"ajb": '+$("#ajb").val()+''+
+						'}'
+				}else if ($("#jenis_property").val()==2) {
+					desk = '{'+
+						'"jenis_property": '+$("#jenis_property").val()+', '+
+						'"luas_tanah": '+$("#luas_tanah").val()+', '+
+						'"luas_bangunan": '+$("#luas_bangunan").val()+', '+
+						'"hpp_tanah": '+$("#hpp_tanah").val()+', '+
+						'"hpp_bangunan": '+$("#hpp_bangunan").val()+', '+
+						'"infrastruktur": '+$("#infrastruktur").val()+', '+
+						'"ajb": '+$("#ajb").val()+''+
+						'}'
+				}
+			
 				if ($("#id_dummy").val()=="") {
 					data = {
 						id_property: "",
 						nama_property: $("#nama_property").val(),
-						deskripsi_property: $("#deskripsi_property").val(),
+						deskripsi_property: desk,
 						stock: $("#stock").val(),
-						harga: $("#harga").val(),
 						terjual: $("#terjual").val(),
 						update_stock: timestamp
 					};
@@ -371,9 +451,8 @@
 						id_dummy: $("#id_dummy").val(),
 						id_property: $("#id_dummy").val(),
 						nama_property: $("#nama_property").val(),
-						deskripsi_property: $("#deskripsi_property").val(),
+						deskripsi_property: desk,
 						stock: $("#stock").val(),
-						harga: $("#harga").val(),
 						terjual: $("#terjual").val(),
 						update_stock: update_stock
 					};

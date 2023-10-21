@@ -53,7 +53,7 @@
 				?>
               <a id="htrans" href="<?= $transaksi; ?>"><span class="fa fa-paper-plane mr-3"></span> Transaksi</a>
 	          </li>
-	          <li>
+	          <li class="active">
               <a id="hpeng" href="<?= $pengguna; ?>"><span class="fa fa-user-o mr-3"></span> Pengguna</a>
 	          </li>
 	          <li>

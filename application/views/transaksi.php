@@ -39,7 +39,7 @@
 	          <li>
               <a href="<?= base_url(); ?>myweb/property"><span class="fa fa-briefcase mr-3"></span> Property</a>
 	          </li>
-	          <li>
+	          <li class="active">
 				<?php
 				$transaksi = "";
 				$pengguna = "";
@@ -102,13 +102,7 @@
         <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Transaksi</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <p id="price"></p>
-        <p id="dpp"></p>
-        <p id="ppn"></p>
-        <p id="bphtb"></p>
-		<p id="total_biaya"></p>
-		<p id="laba"></p>
+      <div class="modal-body" id="isi_detail">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -334,16 +328,44 @@
 				var dpp = (parseInt(data['harga_buka'])+3000000)/1.16;
 				var ppn = 11/100*dpp;
 				var bphtb = (dpp-60000000)*5/100;
-				var laba = dpp-parseInt(data['harga']);
+				var desk = JSON.parse(data['deskripsi_property']);
+				var ajb = desk['ajb'];
+				var hpp_tanah = 0;
+				var hpp_bangunan = 0;
+				var hpp_infrastruktur = 0;
+				var closing_fee = 0;
+				var komisi_fee = 0;
+				var pph_final = dpp * 2.5/100;
+				var isi_detail = "<p><b>Price</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  Rp. "+data['harga_buka']+"</p>"+
+							"<p><b>DPP</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  Rp. "+parseInt(dpp)+"</p>"+
+							"<p><b>PPn</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  Rp. "+parseInt(ppn)+"</p>"
+
+				$("#isi_detail").empty();
+
+				if (desk['jenis_property'] == 1) {
+					jenis = "Tanah";
+					hpp_tanah = parseInt(desk['luas_tanah']) * parseInt(desk['hpp_tanah']);
+					komisi_fee = parseInt(data['harga_buka']) * 1.375/100;
+				}else if (desk['jenis_property'] == 2) {
+					jenis = "Rumah";
+					hpp_tanah = parseInt(desk['luas_tanah']) * parseInt(desk['hpp_tanah']);
+					hpp_bangunan = parseInt(desk['luas_bangunan']) * parseInt(desk['hpp_bangunan']);
+					hpp_infrastruktur = parseInt(desk['infrastruktur']) * parseInt(desk['luas_tanah']);
+					closing_fee = 1.25/100 * (parseInt(data['harga_buka'])-ppn);
+					if (closing_fee >= 4000000) {
+						closing_fee = 4000000;
+					}
+					komisi_fee = dpp * 1.25/100;
+				}
+				var total_biaya = hpp_tanah + hpp_bangunan + hpp_infrastruktur + closing_fee + komisi_fee + pph_final;
+				var laba = dpp-total_biaya;
 				var labapersen = laba/dpp*100;
-				
-				// console.log(data);
-				$("#price").empty();
-				$("#price").append("<b>Price</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  Rp. "+data['harga_buka']);
+				// console.log(total_biaya);
+				$("#isi_detail").append(isi_detail);
 				$("#dpp").empty();
-				$("#dpp").append("<b>DPP</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  Rp. "+parseInt(dpp));
+				$("#dpp").append();
 				$("#ppn").empty();
-				$("#ppn").append("<b>PPn</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  Rp. "+parseInt(ppn));
+				$("#ppn").append();
 				$("#bphtb").empty();
 				$("#bphtb").append("<b>BPHTB</b>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;:  Rp. "+parseInt(bphtb));
 				$("#total_biaya").empty();

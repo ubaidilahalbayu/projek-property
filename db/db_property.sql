@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 20, 2023 at 01:26 AM
+-- Generation Time: Oct 21, 2023 at 09:58 PM
 -- Server version: 8.0.34-0ubuntu0.22.04.1
 -- PHP Version: 7.4.33
 
@@ -154,7 +154,6 @@ CREATE TABLE `tb_property` (
   `nama_property` varchar(50) COLLATE utf8mb4_general_ci DEFAULT 'NamaProperty',
   `deskripsi_property` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `stock` int NOT NULL,
-  `harga` varchar(128) COLLATE utf8mb4_general_ci NOT NULL,
   `terjual` int NOT NULL,
   `update_stock` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -163,15 +162,15 @@ CREATE TABLE `tb_property` (
 -- Dumping data for table `tb_property`
 --
 
-INSERT INTO `tb_property` (`id_property`, `nama_property`, `deskripsi_property`, `stock`, `harga`, `terjual`, `update_stock`) VALUES
-(1, 'Alamanda', 'Rumah', 9, '200000000', 1, '2023-10-19 18:17:14'),
-(2, 'Amrilis', 'Rumah', 10, '200000000', 0, '2023-10-19 13:51:19'),
-(3, 'Aster', 'Rumah', 10, '200000000', 0, '2023-10-19 13:51:22'),
-(4, 'Bluebell', 'Rumah', 10, '200000000', 0, '2023-10-19 13:52:50'),
-(5, 'Brassicca', 'Rumah', 10, '200000000', 0, '2023-10-19 13:56:35'),
-(6, 'Watercress', 'Rumah', 10, '200000000', 0, '2023-10-19 13:56:36'),
-(7, 'Willow', 'Rumah', 10, '200000000', 0, '2023-10-19 13:56:37'),
-(8, 'Kavling', 'Tanah 165Ha', 10, '100000000', 0, '2023-10-19 13:58:49');
+INSERT INTO `tb_property` (`id_property`, `nama_property`, `deskripsi_property`, `stock`, `terjual`, `update_stock`) VALUES
+(1, 'Alamanda', '{\"jenis_property\": 2, \"luas_tanah\": 84, \"luas_bangunan\": 60, \"hpp_tanah\": 6600000, \"hpp_bangunan\": 3300000, \"infrastruktur\": 957987, \"ajb\": 5000000}', 9, 1, '2023-10-19 18:17:14'),
+(2, 'Amrilis', '{\"jenis_property\": 2, \"luas_tanah\": 84, \"luas_bangunan\": 63, \"hpp_tanah\": 2176000, \"hpp_bangunan\": 4200000, \"infrastruktur\": 937572, \"ajb\": 5000000}', 10, 0, '2023-10-19 13:51:19'),
+(3, 'Aster', '{\"jenis_property\": 2, \"luas_tanah\": 84, \"luas_bangunan\": 60, \"hpp_tanah\": 6600000, \"hpp_bangunan\": 3300000, \"infrastruktur\": 957987, \"ajb\": 5000000}', 10, 0, '2023-10-19 13:51:22'),
+(4, 'Bluebell', '{\"jenis_property\": 2, \"luas_tanah\": 84, \"luas_bangunan\": 60, \"hpp_tanah\": 6600000, \"hpp_bangunan\": 3300000, \"infrastruktur\": 957987, \"ajb\": 5000000}', 10, 0, '2023-10-19 13:52:50'),
+(5, 'Brassicca', '{\"jenis_property\": 2, \"luas_tanah\": 84, \"luas_bangunan\": 60, \"hpp_tanah\": 6600000, \"hpp_bangunan\": 3300000, \"infrastruktur\": 957987, \"ajb\": 5000000}', 10, 0, '2023-10-19 13:56:35'),
+(6, 'Watercress', '{\"jenis_property\": 2, \"luas_tanah\": 84, \"luas_bangunan\": 60, \"hpp_tanah\": 6600000, \"hpp_bangunan\": 3300000, \"infrastruktur\": 957987, \"ajb\": 5000000}', 10, 0, '2023-10-19 13:56:36'),
+(7, 'Willow', '{\"jenis_property\": 2, \"luas_tanah\": 84, \"luas_bangunan\": 60, \"hpp_tanah\": 6600000, \"hpp_bangunan\": 3300000, \"infrastruktur\": 957987, \"ajb\": 5000000}', 10, 0, '2023-10-19 13:56:37'),
+(8, 'Kavling', '{\"jenis_property\": 1, \"luas_tanah\": 84, \"hpp_tanah\": 6600000, \"ajb\": 5000000}', 10, 0, '2023-10-19 13:58:49');
 
 -- --------------------------------------------------------
 
@@ -220,7 +219,8 @@ CREATE TABLE `tb_transaksi` (
 --
 
 INSERT INTO `tb_transaksi` (`id_transaksi`, `customer`, `property`, `harga_buka`, `status`, `metode_pembayaran`, `waktu_mulai`, `waktu_akhir`) VALUES
-(11, 2, 1, 300000000, 1, 1, '2023-10-19 18:17:04', '2023-10-19 18:17:14');
+(11, 2, 1, 300000000, 1, 1, '2023-10-19 18:17:04', '2023-10-19 18:17:14'),
+(12, 2, 2, 994950000, 0, 1, '2023-10-21 14:43:30', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -362,7 +362,7 @@ ALTER TABLE `tb_pembayaran`
 -- AUTO_INCREMENT for table `tb_property`
 --
 ALTER TABLE `tb_property`
-  MODIFY `id_property` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_property` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tb_tipe_unit`
@@ -374,7 +374,7 @@ ALTER TABLE `tb_tipe_unit`
 -- AUTO_INCREMENT for table `tb_transaksi`
 --
 ALTER TABLE `tb_transaksi`
-  MODIFY `id_transaksi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_transaksi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables

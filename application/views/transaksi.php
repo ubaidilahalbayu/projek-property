@@ -268,10 +268,33 @@
 							var dpp = (parseInt(data_transaksi[i]['harga_buka'])+3000000)/1.16;
 							var ppn = 11/100*dpp;
 							var bphtb = (dpp-60000000)*5/100;
+							var desk = JSON.parse(data_transaksi[i]['deskripsi_property']);
+							var ajb = desk['ajb'];
+							var hpp_tanah = 0;
+							var hpp_bangunan = 0;
+							var hpp_infrastruktur = 0;
+							var closing_fee = 0;
+							var komisi_fee = 0;
+							var pph_final = dpp * 2.5/100;
+							if (desk['jenis_property'] == 1) {
+								hpp_tanah = parseInt(desk['luas_tanah']) * parseInt(desk['hpp_tanah']);
+								komisi_fee = parseInt(data_transaksi[i]['harga_buka']) * 1.375/100;
+							}else if (desk['jenis_property'] == 2) {
+								hpp_tanah = parseInt(desk['luas_tanah']) * parseInt(desk['hpp_tanah']);
+								hpp_bangunan = parseInt(desk['luas_bangunan']) * parseInt(desk['hpp_bangunan']);
+								hpp_infrastruktur = parseInt(desk['infrastruktur']) * parseInt(desk['luas_tanah']);
+								closing_fee = 1.25/100 * (parseInt(data_transaksi[i]['harga_buka'])-ppn);
+								if (closing_fee >= 4000000) {
+									closing_fee = 4000000;
+								}
+								komisi_fee = dpp * 1.25/100;
+							}
+							var total_biaya = hpp_tanah + hpp_bangunan + hpp_infrastruktur + closing_fee + komisi_fee + pph_final;
+							// console.log(total_biaya);
 							var btn_status = "btn-warning";
-							if (dpp > data_transaksi[i]['harga']) {
+							if (dpp > total_biaya) {
 								btn_status = "btn-success";
-							}else if(dpp < data_transaksi[i]['harga']){
+							}else if(dpp < total_biaya){
 								btn_status = "btn-danger";
 							}
 							// console.log(parseInt(data_transaksi[i]['harga']));

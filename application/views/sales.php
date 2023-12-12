@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>Konsumen</title>
+  	<title>Sales</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -31,7 +31,7 @@
 	          <li>
 	            <a href="<?= base_url(); ?>myweb/dashboard"><span class="fa fa-tachometer mr-3"></span> Dashboard</a>
 	          </li>
-	          <li class="active">
+	          <li>
 	              <a href="<?= base_url(); ?>myweb/konsumen"><span class="fa fa-user mr-3"></span> Konsumen</a>
 	          </li>
 	          <li>
@@ -61,7 +61,7 @@
 	          <li>
               <a id="hpeng" href="<?= $pengguna; ?>"><span class="fa fa-user-o mr-3"></span> Pengguna</a>
 	          </li>
-	          <li>
+	          <li  class="active">
               <a id="hsal" href="<?= $sales; ?>"><span class="fa fa-user mr-3"></span> Sales</a>
 	          </li>
 	          <li>
@@ -108,63 +108,56 @@
     	</nav>
 
 <!-- Modal -->
-<div class="modal fade" id="konsumenModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="salesModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Form Konsumen</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Form Sales</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="form_konsumen">
+        <form id="form_sales">
 			<input type="text" id="id_dummy" name="id_dummy" hidden>
 		<div class="mb-3">
-			<label for="nik" class="form-label">NIK</label>
-			<input type="text" class="form-control" id="nik" name="nik" placeholder="Isi disini">
+			<label for="nik_sales" class="form-label">NIK</label>
+			<input type="text" class="form-control" id="nik_sales" name="nik_sales" placeholder="Isi disini">
 		</div>
 		<div class="mb-3">
-			<label for="nama_customer" class="form-label">Nama</label>
-			<input type="text" class="form-control" id="nama_customer" name="nama_customer">
+			<label for="nama_sales" class="form-label">Nama</label>
+			<input type="text" class="form-control" id="nama_sales" name="nama_sales">
 		</div>
 		<div class="mb-3">
-			<label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
-			<select class="form-select" aria-label="Default select example" id="jenis_kelamin" name="jenis_kelamin">
-				<option value="L">Laki-laki</option>
-				<option value="P">Perempuan</option>
-			</select>
+			<label for="no_hp_sales" class="form-label">No Hp</label>
+			<input type="text" class="form-control" id="no_hp_sales" name="no_hp_sales">
 		</div>
 		<div class="mb-3">
-			<label for="pekerjaan" class="form-label">Pekerjaan</label>
-			<input type="text" class="form-control" id="pekerjaan" name="pekerjaan">
-		</div>
-		<div class="mb-3">
-			<label for="alamat" class="form-label">Alamat</label>
-			<textarea class="form-control" id="alamat" name="alamat" rows="3"></textarea>
+			<label for="alamat_sales" class="form-label">Alamat</label>
+			<textarea class="form-control" id="alamat_sales" name="alamat_sales" rows="3"></textarea>
 		</div>
 		</form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" form="form_konsumen" class="btn btn-primary">Submit</button>
+        <button type="submit" form="form_sales" class="btn btn-primary">Submit</button>
       </div>
     </div>
   </div>
 </div>
+
         <!-- Page Content  -->
       <div id="content" class="p-4 p-md-5 pt-5">
-        <h2 class="mb-4">Data Konsumen</h2>
+        <h2 class="mb-4">Data Sales</h2>
 		<!-- Button trigger modal -->
-		<button id="btn_tambah_konsumen" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#konsumenModal">
-			Tambah Konsumen
+		<button id="btn_tambah_sales" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#salesModal">
+			Tambah Sales
 		</button>
 		<hr>
-		<table id="tabel_konsumen" class="table">
+		<table id="tabel_sales" class="table">
 			<thead class="table-light">
 				<tr>
 					<th scope="col">NIK</th>
 					<th scope="col">Nama</th>
-					<th scope="col">Jenis Kelamin</th>
-					<th scope="col">Pekerjaan</th>
+					<th scope="col">No HP</th>
 					<th scope="col">Alamat</th>
 					<th scope="col">Aksi</th>
 				</tr>
@@ -179,35 +172,34 @@
 			base_url += "/"+path_name[1]+"/";
 			// console.log(base_url);
 
-			var tabel_konsumen = $('#tabel_konsumen').DataTable({
+			var tabel_sales = $('#tabel_sales').DataTable({
                   "columnDefs": [
-                    { width: "15%", targets: [5] },
+                    { width: "15%", targets: [4] },
                     { className: 'text-center', targets: "_all" },
                     { className: 'align-middle', targets: "_all" }
                   ]
                 });
-			renderTabelKonsumen();
+			renderTabelSales();
 
-			function renderTabelKonsumen(){
-				tabel_konsumen.clear();
+			function renderTabelSales(){
+				tabel_sales.clear();
 				$.ajax({
-					url: base_url+"api/customer"
+					url: base_url+"api/sales"
 				})
 				.done(function( res ) {
 					// console.log(res); //"Sample of data:", data.slice( 0, 100 ) );
 					
 					if (res['status']) {
-						var data_konsumen = res['data'];      
-						for(i=0;i<data_konsumen.length;i++){
+						var data_sales = res['data'];      
+						for(i=0;i<data_sales.length;i++){
 							// var no = i+1
-							var btn_edit ="<button type='button' class='btn btn-warning btn-sm btn-edit' id_kons='"+data_konsumen[i]['id_customer']+"' data-bs-toggle='modal' data-bs-target='#konsumenModal'>Edit</button>";
-							var btn_hapus ="<button type='button' class='btn btn-danger btn-sm btn-hapus' id_kons='"+data_konsumen[i]['id_customer']+"' nik='"+data_konsumen[i]['nik']+"'>Hapus</button>";
-							tabel_konsumen.row.add( [
-									data_konsumen[i]['nik'],
-									data_konsumen[i]['nama_customer'],
-									data_konsumen[i]['jenis_kelamin'],
-									data_konsumen[i]['pekerjaan'],
-									data_konsumen[i]['alamat'],
+							var btn_edit ="<button type='button' class='btn btn-warning btn-sm btn-edit' nik_sal='"+data_sales[i]['nik_sales']+"' data-bs-toggle='modal' data-bs-target='#salesModal'>Edit</button>";
+							var btn_hapus ="<button type='button' class='btn btn-danger btn-sm btn-hapus' nik_sales='"+data_sales[i]['nik_sales']+"'>Hapus</button>";
+							tabel_sales.row.add( [
+									data_sales[i]['nik_sales'],
+									data_sales[i]['nama_sales'],
+									data_sales[i]['no_hp_sales'],
+									data_sales[i]['alamat_sales'],
 									btn_edit+" "+btn_hapus
 							] ).draw( false );
 						
@@ -216,60 +208,51 @@
 				});
 			}
 
-			$("#btn_tambah_konsumen").click(function(){
+			$("#btn_tambah_sales").click(function(){
 				$("#id_dummy").val('');
-				$("#nik").val('');
-				$("#nama_customer").val('');
-				$("#jenis_kelamin").val('');
-				$("#pekerjaan").val('');
-				$("#alamat").val('');
+				$("#nik_sales").val('');
+				$("#nama_sales").val('');
+				$("#no_hp_sales").val('+62');
+				$("#alamat_sales").val('');
 			});
 
-			$("#tabel_konsumen tbody").on('click','.btn-edit', function(){
-            var id = $(this).attr('id_kons');
+			$("#tabel_sales tbody").on('click','.btn-edit', function(){
+            var id = $(this).attr('nik_sal');
             $.ajax({
-                url: base_url+"api/customer",
+                url: base_url+"api/sales",
 				method: "get",
 				data: {
-					id_customer: id
+					nik_sales: id
 				}
               }).done(function( res ) {
 				var data = res['data'][0];
-                $("#id_dummy").val(data['id_customer']);
-				$("#nik").val(data['nik']);
-                $("#nama_customer").val(data['nama_customer']);
-                $("#jenis_kelamin").val(data['jenis_kelamin']);
-                $("#pekerjaan").val(data['pekerjaan']);
-                $("#alamat").val(data['alamat']);
+                $("#id_dummy").val(data['nik_sales']);
+				$("#nik_sales").val(data['nik_sales']);
+                $("#nama_sales").val(data['nama_sales']);
+                $("#no_hp_sales").val(data['no_hp_sales']);
+                $("#alamat_sales").val(data['alamat_sales']);
               }); 
        		});
 			
-			$("#form_konsumen").submit(function(event){
+			$("#form_sales").submit(function(event){
 				event.preventDefault();
 				var data = $( this ).serialize();
 				
 				if ($("#id_dummy").val()=="") {
 					data = {
-						id_customer: "",
-						nama_customer: $("#nama_customer").val(),
-						nik: $("#nik").val(),
-						jenis_kelamin: $("#jenis_kelamin").val(),
-						alamat: $("#alamat").val(),
-						pekerjaan: $("#pekerjaan").val(),
-						no_hp: "+62",//$("#no_hp").val(),
-						email: "@mail",//$("#email").val(),
-						waktu_pendaftaran: "",//$("#waktu_pendaftaran").val(),
-						level_member: "1",//$("#level_member").val(),
-						username: ""//$("#username").val(),
+						nik_sales: $("#nik_sales").val(),
+						nama_sales: $("#nama_sales").val(),
+						no_hp_sales: $("#no_hp_sales").val(),
+						alamat_sales: $("#alamat_sales").val()
 					};
 					$.ajax({
 						method: "post",
-						url: base_url+"api/customer",
+						url: base_url+"api/sales",
 						data: data
 					}).done(function(res){
 						console.log(res);
 						if (res['status']) {
-							$("#konsumenModal").modal("hide");
+							$("#salesModal").modal("hide");
 							alert("Success!");
 							location.reload();
 						}else{
@@ -279,35 +262,27 @@
 				}else{
 					data = {
 						id_dummy: $("#id_dummy").val(),
-						id_customer: $("#id_dummy").val(),
-						nama_customer: $("#nama_customer").val(),
-						nik: $("#nik").val(),
-						jenis_kelamin: $("#jenis_kelamin").val(),
-						alamat: $("#alamat").val(),
-						pekerjaan: $("#pekerjaan").val(),
-						no_hp: "+62",//$("#no_hp").val(),
-						email: "@mail",//$("#email").val(),
-						waktu_pendaftaran: "",//$("#waktu_pendaftaran").val(),
-						level_member: "1",//$("#level_member").val(),
-						username: ""//$("#username").val(),
+						nik_sales: $("#nik_sales").val(),
+						nama_sales: $("#nama_sales").val(),
+						no_hp_sales: $("#no_hp_sales").val(),
+						alamat_sales: $("#alamat_sales").val()
 					};
 					$.ajax({
 						method: "put",
-						url: base_url+"api/customer",
+						url: base_url+"api/sales",
 						data: data
 					}).done(function(res){
 						// console.log(data['id_dummy']);
 						var check = res['data'];
 						if (res['status']) {
-							$("#konsumenModal").modal("hide");
 							alert("Success!");
+							$("#salesModal").modal("hide");
 							location.reload();
 						}else{
-							if (data['nik']==check['nik']&&
-							data['nama_customer']==check['nama_customer']&&
-							data['jenis_kelamin']==check['jenis_kelamin']&&
-							data['pekerjaan']==check['pekerjaan']&&
-							data['alamat']==check['alamat']) {
+							if (data['nik_sales']==check['nik_sales']&&
+							data['nama_sales']==check['nama_sales']&&
+							data['no_hp_sales']==check['no_hp_sales']&&
+							data['alamat_sales']==check['alamat_sales']) {
 								alert("data tidak ada yg berubah")
 							}else{
 								alert("Failed!!");
@@ -318,16 +293,15 @@
 
 			});
 
-			$("#tabel_konsumen tbody").on('click','.btn-hapus', function(){
-				var id = $(this).attr('id_kons');
-				var nik = $(this).attr('nik');
+			$("#tabel_sales tbody").on('click','.btn-hapus', function(){
+				var nik_sales = $(this).attr('nik_sales');
 				
 				var removingRow = $(this).closest('tr');
-				if(confirm("Apakah data dengan nik "+nik+" akan dihapus?")){
+				if(confirm("Apakah data dengan NIK "+nik_sales+" akan dihapus?")){
 				$.ajax({
 					method: "delete",
-					url: base_url+"api/customer",
-					data: {id_customer: id}
+					url: base_url+"api/sales",
+					data: {nik_sales: nik_sales}
 				}).done(function( res ) {
 					if(res['status']){
 						alert("Data berhasil dihapus");

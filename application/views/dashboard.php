@@ -38,18 +38,28 @@
 				<?php
 				$transaksi = "";
 				$pengguna = "";
+				$sales = "";
+				$riwayat = "";
 				if ($this->session->level<3 && $this->session->level>0) {
 					$transaksi = base_url("myweb/transaksi");
 				}
 				if ($this->session->level==1) {
 					$transaksi = base_url("myweb/transaksi");
 					$pengguna = base_url("myweb/pengguna");
+					$sales = base_url("myweb/sales");
+					$riwayat = base_url("myweb/riwayat");
 				}
 				?>
               <a id="htrans" href="<?= $transaksi; ?>"><span class="fa fa-paper-plane mr-3"></span> Transaksi</a>
 	          </li>
 	          <li>
+              <a id="hriw" href="<?= $riwayat; ?>"><span class="fa fa-paper-plane mr-3"></span> Riwayat</a>
+	          </li>
+	          <li>
               <a id="hpeng" href="<?= $pengguna; ?>"><span class="fa fa-user-o mr-3"></span> Pengguna</a>
+	          </li>
+	          <li>
+              <a id="hsal" href="<?= $sales; ?>"><span class="fa fa-user mr-3"></span> Sales</a>
 	          </li>
 	          <li>
               <a href="<?= base_url(); ?>myweb/logout"><span class="fa fa-sign-out mr-3"></span> Logout</a>
@@ -59,6 +69,12 @@
 				?>
 				<script type="text/javascript">
 					$("#hpeng").click(function(){
+						alert("anda bukan owner");
+					});
+					$("#hsal").click(function(){
+						alert("anda bukan owner");
+					});
+					$("#hriw").click(function(){
 						alert("anda bukan owner");
 					});
 				</script>

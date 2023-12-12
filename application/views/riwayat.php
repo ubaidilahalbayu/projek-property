@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>Transaksi</title>
+  	<title>Riwayat</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -39,7 +39,7 @@
 	          <li>
               <a href="<?= base_url(); ?>myweb/property"><span class="fa fa-briefcase mr-3"></span> Property</a>
 	          </li>
-	          <li class="active">
+	          <li>
 				<?php
 				$transaksi = "";
 				$pengguna = "";
@@ -57,7 +57,7 @@
 				?>
               <a id="htrans" href="<?= $transaksi; ?>"><span class="fa fa-paper-plane mr-3"></span> Transaksi</a>
 	          </li>
-	          <li>
+	          <li class="active">
               <a id="hriw" href="<?= $riwayat; ?>"><span class="fa fa-paper-plane mr-3"></span> Riwayat</a>
 	          </li>
 	          <li>
@@ -177,11 +177,11 @@
 
         <!-- Page Content  -->
       <div id="content" class="p-4 p-md-5 pt-5">
-        <h2 class="mb-4">Data Transaksi</h2>
+        <h2 class="mb-4">Data Riwayat</h2>
 		<!-- Button trigger modal -->
-		<button id="btn_tambah_transaksi" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#transaksiModal">
+		<!-- <button id="btn_tambah_transaksi" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#transaksiModal">
 			Tambah Transaksi
-		</button>
+		</button> -->
 		<hr>
 		<table id="tabel_transaksi" class="table">
 			<thead class="table-light">
@@ -194,7 +194,7 @@
 					<th scope="col">Metode Pembayaran</th>
 					<th scope="col">Waktu Mulai</th>
 					<th scope="col">Waktu Akhir</th>
-					<th scope="col">Aksi</th>
+					<!-- <th scope="col">Aksi</th> -->
 				</tr>
 			</thead>
 		</table>
@@ -341,8 +341,8 @@
 									data_transaksi[i]['harga_buka'],
 									data_transaksi[i]['metode'],
 									data_transaksi[i]['waktu_mulai'],
-									data_transaksi[i]['waktu_akhir'],
-									btn_aprov+" "+btn_update+" "+btn_hapus+" "+btn_cancel
+									data_transaksi[i]['waktu_akhir']
+									// btn_aprov+" "+btn_update+" "+btn_hapus+" "+btn_cancel
 							] ).draw( false );
 						
 						}

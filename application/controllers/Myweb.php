@@ -51,12 +51,26 @@ class Myweb extends CI_Controller {
 		}
 		$this->load->view('transaksi');
 	}
+	public function riwayat()
+	{
+		if ($this->session->level>2) {
+			redirect(base_url());
+		}
+		$this->load->view('riwayat');
+	}
 	public function pengguna()
 	{
 		if ($this->session->level>1) {
 			redirect(base_url());
 		}
 		$this->load->view('pengguna');
+	}
+	public function sales()
+	{
+		if ($this->session->level>1) {
+			redirect(base_url());
+		}
+		$this->load->view('sales');
 	}
     public function logout(){
         $this->session->sess_destroy();

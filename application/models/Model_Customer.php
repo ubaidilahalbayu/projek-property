@@ -7,6 +7,7 @@ class Model_Customer extends CI_Model {
         $this->db->select('*');
         $this->db->from('tb_customer');
         $this->db->join('tb_lv_member', 'tb_lv_member.id_member = tb_customer.level_member');
+        $this->db->join('tb_sales', 'tb_sales.nik_sales = tb_customer.sales');
         return $this->db->get()->result_array();
     }
 
@@ -14,6 +15,7 @@ class Model_Customer extends CI_Model {
         $this->db->select('*');
         $this->db->from('tb_customer');
         $this->db->join('tb_lv_member', 'tb_lv_member.id_member = tb_customer.level_member');
+        $this->db->join('tb_sales', 'tb_sales.nik_sales = tb_customer.sales');
         $this->db->where('tb_customer.id_customer', $id_customer);
         return $this->db->get()->result_array();
     }

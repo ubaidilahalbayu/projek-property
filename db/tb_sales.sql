@@ -32,7 +32,7 @@ CREATE TABLE `tb_sales` (
   `nama_sales` varchar(100) NOT NULL,
   `alamat_sales` text NOT NULL,
   `no_hp_sales` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_sales`

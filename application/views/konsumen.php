@@ -119,6 +119,12 @@
         <form id="form_konsumen">
 			<input type="text" id="id_dummy" name="id_dummy" hidden>
 		<div class="mb-3">
+		<div class="mb-3">
+			<label for="sales" class="form-label">Sales</label>
+			<select class="form-select" aria-label="Default select example" id="sales" name="sales">
+				
+			</select>
+		</div>
 			<label for="nik" class="form-label">NIK</label>
 			<input type="text" class="form-control" id="nik" name="nik" placeholder="Isi disini">
 		</div>
@@ -166,6 +172,7 @@
 					<th scope="col">Jenis Kelamin</th>
 					<th scope="col">Pekerjaan</th>
 					<th scope="col">Alamat</th>
+					<th scope="col">Sales</th>
 					<th scope="col">Aksi</th>
 				</tr>
 			</thead>
@@ -179,9 +186,23 @@
 			base_url += "/"+path_name[1]+"/";
 			// console.log(base_url);
 
+			$.ajax({
+					url: base_url+"api/sales"
+				})
+				.done(function( res ) {
+					var data = res['data'];
+					// console.log(data);
+					for (let i = 0; i < data.length; i++) {
+						$('#sales').append($('<option>', {
+							value: data[i]['nik_sales'],
+							text: data[i]['nama_sales']
+						}));
+					}
+				});
+
 			var tabel_konsumen = $('#tabel_konsumen').DataTable({
                   "columnDefs": [
-                    { width: "15%", targets: [5] },
+                    { width: "15%", targets: [6] },
                     { className: 'text-center', targets: "_all" },
                     { className: 'align-middle', targets: "_all" }
                   ]
@@ -208,6 +229,7 @@
 									data_konsumen[i]['jenis_kelamin'],
 									data_konsumen[i]['pekerjaan'],
 									data_konsumen[i]['alamat'],
+									data_konsumen[i]['nama_sales'],
 									btn_edit+" "+btn_hapus
 							] ).draw( false );
 						
@@ -218,6 +240,7 @@
 
 			$("#btn_tambah_konsumen").click(function(){
 				$("#id_dummy").val('');
+				$("#sales").val('');
 				$("#nik").val('');
 				$("#nama_customer").val('');
 				$("#jenis_kelamin").val('');
@@ -236,6 +259,7 @@
               }).done(function( res ) {
 				var data = res['data'][0];
                 $("#id_dummy").val(data['id_customer']);
+				$("#sales").val(data['nik_sales']);
 				$("#nik").val(data['nik']);
                 $("#nama_customer").val(data['nama_customer']);
                 $("#jenis_kelamin").val(data['jenis_kelamin']);
@@ -260,7 +284,8 @@
 						email: "@mail",//$("#email").val(),
 						waktu_pendaftaran: "",//$("#waktu_pendaftaran").val(),
 						level_member: "1",//$("#level_member").val(),
-						username: ""//$("#username").val(),
+						username: "",//$("#username").val(),
+						sales: $("#sales").val()
 					};
 					$.ajax({
 						method: "post",
@@ -289,7 +314,8 @@
 						email: "@mail",//$("#email").val(),
 						waktu_pendaftaran: "",//$("#waktu_pendaftaran").val(),
 						level_member: "1",//$("#level_member").val(),
-						username: ""//$("#username").val(),
+						username: "",//$("#username").val(),
+						sales: $("#sales").val()
 					};
 					$.ajax({
 						method: "put",

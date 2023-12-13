@@ -103,6 +103,22 @@
 
 	      </div>
     	</nav>
+<div class="modal" tabindex="-1" id="penjualanModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detail Penjualan</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="data_penjualan">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
         <!-- Page Content  -->
     <div id="content" class="p-4 p-md-5 pt-5">
@@ -111,8 +127,8 @@
         <div class="card w-25">
 			<div class="card-body">
 				<h5 class="card-title">Penjualan</h5>
-				<p class="card-text">Gambar</p>
-				<a href="#" class="btn btn-primary">Detail</a>
+				<div id="penjualan"></div>
+				<a href="#" data-bs-toggle="modal" data-bs-target="#penjualanModal" class="btn btn-primary">Detail</a>
 			</div>
 		</div>
         <div class="card w-25">
@@ -139,10 +155,46 @@
 		</div>
 	</div>
 	</div>
+	<script type="text/javascript">
+		$(document).ready( function () {
+			var base_url = window.location.origin;
+			var path_name = window.location.pathname.split( '/' );
+			base_url += "/"+path_name[1]+"/";
 
-    <script src="<?= base_url(); ?>assets/js/jquery.min.js"></script>
-    <script src="<?= base_url(); ?>assets/js/popper.js"></script>
-    <script src="<?= base_url(); ?>assets/js/bootstrap.min.js"></script>
+			$.ajax({
+					url: base_url+"api/sales"
+				})
+				.done(function( res ) {
+					var sales = res['data'];
+					$.ajax({
+							url: base_url+"api/customer"
+						})
+						.done(function( res ) {
+							var addTb = "";
+							var customer = res['data'];
+							var jlh_penjualan = [];
+							var terbanyak = 0;
+							var idx_terbanyak = 0;
+							// console.log(customer);
+							for (let i = 0; i < sales.length; i++) {
+								var jlh = 0;
+								for (let j = 0; j < customer.length; j++) {
+									if (sales[i]['nik_sales']==customer[j]['sales']) {
+										jlh += 1;
+									}
+								}
+								if(jlh > terbanyak){
+									terbanyak = jlh;
+									idx_terbanyak = i;
+								}
+								addTb += "<p>"+(i+1)+".) Nama Sales: "+sales[i]['nama_sales']+"; Penjualan ("+jlh+")</p>";
+							}
+							$("#data_penjualan").append(addTb);
+							$("#penjualan").append("<p>Top : "+sales[idx_terbanyak]['nama_sales']+" ("+terbanyak+")</p>")
+						});
+				});
+		});
+	</script>
     <script src="<?= base_url(); ?>assets/js/main.js"></script>
   </body>
 </html>
